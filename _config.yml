@@ -1,0 +1,6 @@
+future: true
+timezone: Asia/Kathmandu
+encoding: UTF-8
+exclude: [".htaccess"]
+include: ["_pages"]
+plugins: []
