@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Digital Gold - NepalBullion</title>
+    <meta name="description" content="Buy digital gold in Nepal using digital wallets like eSewa, Khalti, IMEPay and more payment gateways.">
+    
+    <link rel="icon" type="image/png" href="../images/favicon.png">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/product.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="loading-line"></div>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="../index.html" class="logo">
+                <img src="../images/nepalbullion-logo.png" alt="NepalBullion" class="logo-img">
+                <span>NepalBullion</span>
+            </a>
+            <button class="menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links">
+                <div class="mobile-menu-header">
+                    <button class="close-btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <li><a href="../index.html#home">Home</a></li>
+                <li><a href="../index.html#products">Products</a></li>
+                <li><a href="../index.html#how-it-works">How It Works</a></li>
+                <li><a href="../index.html#pricing">Live Prices</a></li>
+                <li><a href="../index.html#about">About Us</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+                <li><a href="login.html" class="btn-login">Login</a></li>
+                <li><a href="register.html" class="btn-register">Register</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="product-hero">
+        <div class="product-hero-content">
+            <div class="product-hero-text">
+                <h1>Buy <span class="highlight">Digital Gold</span></h1>
+                <p>Invest in 24K 99.9% pure digital gold backed by physical gold stored in secure vaults</p>
+                <div class="product-price">
+                    <div class="current-price">
+                        <span class="label">Current Price:</span>
+                        <span class="value">Rs. <span id="gold-price">112,500</span>/10g</span>
+                    </div>
+                    <div class="price-change up">
+                        <i class="fas fa-arrow-up"></i> 1.2% today
+                    </div>
+                </div>
+            </div>
+            <div class="product-hero-image">
+                <img src="../images/gold-coins.png" alt="Digital Gold">
+            </div>
+        </div>
+    </section>
+
+    <section class="purchase-section">
+        <div class="purchase-container">
+            <div class="purchase-options">
+                <div class="option-tabs">
+                    <button class="option-tab active" data-tab="buy">Buy Gold</button>
+                    <button class="option-tab" data-tab="sell">Sell Gold</button>
+                </div>
+                
+                <div class="tab-content active" id="buy-tab">
+                    <div class="purchase-card">
+                        <div class="purchase-header">
+                            <h2>Buy Digital Gold</h2>
+                            <p>Select amount in grams or rupees</p>
+                        </div>
+                        
+                        <div class="purchase-toggle">
+                            <button class="toggle-btn active" data-toggle="amount">Amount (Rs.)</button>
+                            <button class="toggle-btn" data-toggle="weight">Weight (g)</button>
+                        </div>
+                        
+                        <form id="buyGoldForm" class="purchase-form">
+                            <div class="form-group toggle-content active" id="amount-toggle">
+                                <label for="amount">Amount (Rs.)</label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-rupee-sign"></i>
+                                    <input type="number" id="amount" name="amount" min="100" step="100" value="1000" required>
+                                </div>
+                                <div class="amount-slider">
+                                    <input type="range" id="amountSlider" min="100" max="100000" step="100" value="1000">
+                                    <div class="slider-labels">
+                                        <span>Rs. 100</span>
+                                        <span>Rs. 100,000</span>
+                                    </div>
+                                </div>
+                                <div class="conversion-info">
+                                    <p>You will get: <span id="amountToGrams">0.089</span> grams of gold</p>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group toggle-content" id="weight-toggle">
+                                <label for="weight">Weight (g)</label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-weight"></i>
+                                    <input type="number" id="weight" name="weight" min="0.01" step="0.01" value="0.1" required>
+                                </div>
+                                <div class="amount-slider">
+                                    <input type="range" id="weightSlider" min="0.01" max="10" step="0.01" value="0.1">
+                                    <div class="slider-labels">
+                                        <span>0.01g</span>
+                                        <span>10g</span>
+                                    </div>
+                                </div>
+                                <div class="conversion-info">
+                                    <p>You will pay: Rs. <span id="gramsToAmount">1,125</span></p>
+                                </div>
+                            </div>
+                            
+                            <div class="purchase-summary">
+                                <div class="summary-item">
+                                    <span class="label">Gold Price (per 10g):</span>
+                                    <span class="value">Rs. <span id="summary-price">112,500</span></span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="label">Quantity:</span>
+                                    <span class="value"><span id="summary-quantity">0.089</span> g</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="label">Transaction Fee:</span>
+                                    <span class="value">Rs. <span id="summary-fee">10</span></span>
+                                </div>
+                                <div class="summary-item total">
+                                    <span class="label">Total Amount:</span>
+                                    <span class="value">Rs. <span id="summary-total">1,010</span></span>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-block">Proceed to Payment</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="sell-tab">
+                    <div class="purchase-card">
+                        <div class="purchase-header">
+                            <h2>Sell Digital Gold</h2>
+                            <p>Convert your digital gold to cash</p>
+                        </div>
+                        
+                        <div class="account-balance">
+                            <div class="balance-icon">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <div class="balance-info">
+                                <h3>Your Gold Balance</h3>
+                                <p class="balance-amount">0.000 g</p>
+                                <p class="balance-value">Worth: Rs. 0.00</p>
+                            </div>
+                        </div>
+                        
+                        <div class="login-prompt">
+                            <p>Please <a href="login.html">login</a> to sell your digital gold</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="purchase-info">
+                <div class="info-card">
+                    <div class="info-header">
+                        <h3>Why Buy Digital Gold?</h3>
+                    </div>
+                    <ul class="info-list">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <h4>100% Secure</h4>
+                                <p>Your digital gold is backed by physical gold stored in secure vaults</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <h4>Start Small</h4>
+                                <p>Invest with as little as Rs. 100 and build your portfolio over time</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <h4>No Storage Worries</h4>
+                                <p>We handle the storage and security of your physical gold</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <h4>Sell Anytime</h4>
+                                <p>Convert your digital gold to cash at market rates whenever you need</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <h4>Physical Delivery</h4>
+                                <p>Option to get physical delivery of your gold (min. 10g required)</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Payment Modal -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Select Payment Method</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="payment-methods-list">
+                    <div class="payment-method">
+                        <input type="radio" name="paymentMethod" id="esewa" value="esewa" checked>
+                        <label for="esewa">
+                            <img src="../images/esewa.png" alt="eSewa">
+                            <span>eSewa</span>
+                        </label>
+                    </div>
+                    <div class="payment-method">
+                        <input type="radio" name="paymentMethod" id="khalti" value="khalti">
+                        <label for="khalti">
+                            <img src="../images/khalti.png" alt="Khalti">
+                            <span>Khalti</span>
+                        </label>
+                    </div>
+                    <div class="payment-method">
+                        <input type="radio" name="paymentMethod" id="imepay" value="imepay">
+                        <label for="imepay">
+                            <img src="../images/imepay.png" alt="IMEPay">
+                            <span>IMEPay</span>
+                        </label>
+                    </div>
+                    <div class="payment-method">
+                        <input type="radio" name="paymentMethod" id="connectips" value="connectips">
+                        <label for="connectips">
+                            <img src="../images/connectips.png" alt="ConnectIPS">
+                            <span>ConnectIPS</span>
+                        </label>
+                    </div>
+                    <div class="payment-method">
+                        <input type="radio" name="paymentMethod" id="bank" value="bank">
+                        <label for="bank">
+                            <i class="fas fa-university"></i>
+                            <span>Bank Transfer</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="payment-summary">
+                    <div class="summary-item">
+                        <span class="label">Gold Quantity:</span>
+                        <span class="value"><span id="modal-quantity">0.089</span> g</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Amount:</span>
+                        <span class="value">Rs. <span id="modal-amount">1,000</span></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Transaction Fee:</span>
+                        <span class="value">Rs. <span id="modal-fee">10</span></span>
+                    </div>
+                    <div class="summary-item total">
+                        <span class="label">Total Amount:</span>
+                        <span class="value">Rs. <span id="modal-total">1,010</span></span>
+                    </div>
+                </div>
+                
+                <div class="login-prompt">
+                    <p>Please <a href="login.html">login</a> or <a href="register.html">register</a> to complete your purchase</p>
+                </div>
+                
+                <div class="payment-actions">
+                    <button class="btn btn-secondary" id="cancelPayment">Cancel</button>
+                    <button class="btn btn-primary" id="proceedPayment">Proceed to Payment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="../images/nepalbullion-logo.png" alt="NepalBullion">
+                <h3>NepalBullion</h3>
+            </div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Products</h4>
+                    <ul>
+                        <li><a href="buy-gold.html">Digital Gold</a></li>
+                        <li><a href="buy-silver.html">Digital Silver</a></li>
+                        <li><a href="gift-cards.html">Gift Cards</a></li>
+                        <li><a href="sip.html">Gold SIP</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="careers.html">Careers</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="press.html">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="help.html">Help Center</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="refund.html">Refund Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 NepalBullion. All rights reserved.</p>
+            <div class="payment-icons">
+                <img src="../images/esewa.png" alt="eSewa" class="payment-icon">
+                <img src="../images/khalti.png" alt="Khalti" class="payment-icon">
+                <img src="../images/imepay.png" alt="IMEPay" class="payment-icon">
+                <img src="../images/connectips.png" alt="ConnectIPS" class="payment-icon">
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/product.js"></script>
+</body>
+</html>
+

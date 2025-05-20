@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - NepalBullion</title>
+    <meta name="description" content="Manage your digital gold and silver investments on NepalBullion.">
+    
+    <link rel="icon" type="image/png" href="../images/favicon.png">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="loading-line"></div>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="../images/nepalbullion-logo.png" alt="NepalBullion" class="logo-img">
+                <h2>NepalBullion</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active">
+                        <a href="dashboard.html">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="portfolio.html">
+                            <i class="fas fa-chart-pie"></i>
+                            <span>Portfolio</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="buy-sell.html">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span>Buy & Sell</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="transactions.html">
+                            <i class="fas fa-history"></i>
+                            <span>Transactions</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="wallet.html">
+                            <i class="fas fa-wallet"></i>
+                            <span>Wallet</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="delivery.html">
+                            <i class="fas fa-truck"></i>
+                            <span>Delivery</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="kyc.html">
+                            <i class="fas fa-id-card"></i>
+                            <span>KYC</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="settings.html">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="topbar">
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="topbar-right">
+                    <div class="notifications">
+                        <button class="notification-btn">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge">3</span>
+                        </button>
+                        <div class="notification-dropdown">
+                            <div class="notification-header">
+                                <h3>Notifications</h3>
+                                <a href="#">Mark all as read</a>
+                            </div>
+                            <div class="notification-list">
+                                <div class="notification-item unread">
+                                    <div class="notification-icon">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>Your KYC verification has been approved!</p>
+                                        <span class="notification-time">2 hours ago</span>
+                                    </div>
+                                </div>
+                                <div class="notification-item unread">
+                                    <div class="notification-icon">
+                                        <i class="fas fa-coins"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>Gold price has increased by 2.5% today</p>
+                                        <span class="notification-time">5 hours ago</span>
+                                    </div>
+                                </div>
+                                <div class="notification-item unread">
+                                    <div class="notification-icon">
+                                        <i class="fas fa-wallet"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>Your wallet has been credited with Rs. 5,000</p>
+                                        <span class="notification-time">1 day ago</span>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="notification-icon">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>Your purchase of 0.5g gold was successful</p>
+                                        <span class="notification-time">2 days ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="notification-footer">
+                                <a href="notifications.html">View all notifications</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-profile">
+                        <button class="profile-btn">
+                            <img src="../images/user-avatar.jpg" alt="User" class="user-avatar">
+                            <span class="user-name">Rajesh Sharma</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="profile-dropdown">
+                            <a href="profile.html">
+                                <i class="fas fa-user"></i>
+                                My Profile
+                            </a>
+                            <a href="settings.html">
+                                <i class="fas fa-cog"></i>
+                                Settings
+                            </a>
+                            <a href="#" id="logoutBtnDropdown">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <div class="page-header">
+                    <h1>Dashboard</h1>
+                    <p>Welcome back, Rajesh! Here's an overview of your investments.</p>
+                </div>
+
+                <!-- KYC Alert -->
+                <div class="kyc-alert">
+                    <div class="alert-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="alert-content">
+                        <h3>KYC Verified</h3>
+                        <p>Your KYC verification has been approved. You can now buy, sell, and request delivery of your digital gold and silver.</p>
+                    </div>
+                    <button class="alert-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon gold">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Gold Balance</h3>
+                            <div class="stat-value">0.875 g</div>
+                            <div class="stat-meta">
+                                <span class="stat-label">Worth:</span>
+                                <span class="stat-amount">Rs. 9,843.75</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon silver">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Silver Balance</h3>
+                            <div class="stat-value">5.250 g</div>
+                            <div class="stat-meta">
+                                <span class="stat-label">Worth:</span>
+                                <span class="stat-amount">Rs. 761.25</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon wallet">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Wallet Balance</h3>
+                            <div class="stat-value">Rs. 5,000</div>
+                            <div class="stat-meta">
+                                <a href="wallet.html" class="stat-action">Add Money</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon profit">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Total Profit/Loss</h3>
+                            <div class="stat-value profit">+Rs. 1,245.50</div>
+                            <div class="stat-meta">
+                                <span class="stat-label">Return:</span>
+                                <span class="stat-amount profit">+12.5%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Portfolio Chart -->
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h2>Portfolio Performance</h2>
+                        <div class="chart-filters">
+                            <button class="chart-filter active" data-period="week">1W</button>
+                            <button class="chart-filter" data-period="month">1M</button>
+                            <button class="chart-filter" data-period="year">1Y</button>
+                            <button class="chart-filter" data-period="all">All</button>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="portfolioChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Recent Transactions -->
+                <div class="transactions-container">
+                    <div class="section-header">
+                        <h2>Recent Transactions</h2>
+                        <a href="transactions.html" class="view-all">View All</a>
+                    </div>
+                    <div class="transactions-table-wrapper">
+                        <table class="transactions-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>May 19, 2024</td>
+                                    <td class="transaction-type buy">Buy</td>
+                                    <td>Purchased 0.25g Gold</td>
+                                    <td>Rs. 2,812.50</td>
+                                    <td><span class="status completed">Completed</span></td>
+                                </tr>
+                                <tr>
+                                    <td>May 15, 2024</td>
+                                    <td class="transaction-type buy">Buy</td>
+                                    <td>Purchased 5.25g Silver</td>
+                                    <td>Rs. 761.25</td>
+                                    <td><span class="status completed">Completed</span></td>
+                                </tr>
+                                <tr>
+                                    <td>May 10, 2024</td>
+                                    <td class="transaction-type deposit">Deposit</td>
+                                    <td>Added money via eSewa</td>
+                                    <td>Rs. 5,000.00</td>
+                                    <td><span class="status completed">Completed</span></td>
+                                </tr>
+                                <tr>
+                                    <td>May 5, 2024</td>
+                                    <td class="transaction-type buy">Buy</td>
+                                    <td>Purchased 0.625g Gold</td>
+                                    <td>Rs. 7,031.25</td>
+                                    <td><span class="status completed">Completed</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <div class="section-header">
+                        <h2>Quick Actions</h2>
+                    </div>
+                    <div class="actions-grid">
+                        <a href="buy-gold.html" class="action-card">
+                            <div class="action-icon gold">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <h3>Buy Gold</h3>
+                        </a>
+                        <a href="buy-silver.html" class="action-card">
+                            <div class="action-icon silver">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <h3>Buy Silver</h3>
+                        </a>
+                        <a href="sell.html" class="action-card">
+                            <div class="action-icon sell">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
+                            <h3>Sell Metals</h3>
+                        </a>
+                        <a href="wallet.html" class="action-card">
+                            <div class="action-icon wallet">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            <h3>Add Money</h3>
+                        </a>
+                        <a href="delivery.html" class="action-card">
+                            <div class="action-icon delivery">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <h3>Request Delivery</h3>
+                        </a>
+                        <a href="gift.html" class="action-card">
+                            <div class="action-icon gift">
+                                <i class="fas fa-gift"></i>
+                            </div>
+                            <h3>Gift Gold</h3>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Market Rates -->
+                <div class="market-rates">
+                    <div class="section-header">
+                        <h2>Current Market Rates</h2>
+                        <span class="last-updated">Last updated: May 20, 2024 13:02 NPT</span>
+                    </div>
+                    <div class="rates-grid">
+                        <div class="rate-card gold">
+                            <div class="rate-header">
+                                <h3>Gold (24K)</h3>
+                                <div class="rate-change up">
+                                    <i class="fas fa-arrow-up"></i> 1.2%
+                                </div>
+                            </div>
+                            <div class="rate-value">Rs. 112,500/10g</div>
+                            <div class="rate-history">
+                                <canvas id="goldChart" height="50"></canvas>
+                            </div>
+                        </div>
+                        <div class="rate-card silver">
+                            <div class="rate-header">
+                                <h3>Silver</h3>
+                                <div class="rate-change down">
+                                    <i class="fas fa-arrow-down"></i> 0.5%
+                                </div>
+                            </div>
+                            <div class="rate-value">Rs. 1,450/10g</div>
+                            <div class="rate-history">
+                                <canvas id="silverChart" height="50"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="dashboard-footer">
+                <p>&copy; 2024 NepalBullion. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="help.html">Help Center</a>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+</html>
+
