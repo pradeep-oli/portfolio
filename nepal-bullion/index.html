@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NepalBullion - Buy Gold & Silver Digitally in Nepal</title>
+    <meta name="description" content="Buy gold and silver digitally in Nepal using digital wallets like eSewa, Khalti, IMEPay and more payment gateways.">
+    <meta name="keywords" content="gold, silver, digital gold, Nepal, eSewa, Khalti, IMEPay, digital payment, bullion">
+    <meta name="author" content="Pradeep Oli">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nepalbullion.com/">
+    <meta property="og:title" content="NepalBullion - Buy Gold & Silver Digitally in Nepal">
+    <meta property="og:description" content="Buy gold and silver digitally in Nepal using digital wallets like eSewa, Khalti, IMEPay and more payment gateways.">
+    <meta property="og:image" content="images/nepalbullion-logo.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://nepalbullion.com/">
+    <meta property="twitter:title" content="NepalBullion - Buy Gold & Silver Digitally in Nepal">
+    <meta property="twitter:description" content="Buy gold and silver digitally in Nepal using digital wallets like eSewa, Khalti, IMEPay and more payment gateways.">
+    <meta property="twitter:image" content="images/nepalbullion-logo.png">
+
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="loading-line"></div>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="index.html" class="logo">
+                <img src="images/nepalbullion-logo.png" alt="NepalBullion" class="logo-img">
+                <span>NepalBullion</span>
+            </a>
+            <button class="menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links">
+                <div class="mobile-menu-header">
+                    <button class="close-btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#pricing">Live Prices</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="pages/login.html" class="btn-login">Login</a></li>
+                <li><a href="pages/register.html" class="btn-register">Register</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Buy <span class="highlight">Gold & Silver</span> Digitally in Nepal</h1>
+                <h2>Safe, Secure, and Convenient</h2>
+                <p>Invest in precious metals with as little as Rs. 100 using your favorite digital wallets</p>
+                <div class="cta-buttons">
+                    <a href="pages/register.html" class="btn btn-primary">Get Started</a>
+                    <a href="#how-it-works" class="btn btn-secondary">Learn More</a>
+                </div>
+                <div class="payment-methods">
+                    <img src="images/esewa.png" alt="eSewa" class="payment-logo">
+                    <img src="images/khalti.png" alt="Khalti" class="payment-logo">
+                    <img src="images/imepay.png" alt="IMEPay" class="payment-logo">
+                    <img src="images/connectips.png" alt="ConnectIPS" class="payment-logo">
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="images/gold-coins.png" alt="Gold Coins" class="gold-image">
+            </div>
+        </div>
+    </section>
+
+    <section id="live-prices" class="live-prices">
+        <div class="price-container">
+            <div class="price-card gold">
+                <div class="metal-icon">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <h3>Gold</h3>
+                <div class="price">Rs. <span id="gold-price">112,500</span>/10g</div>
+                <div class="price-change up"><i class="fas fa-arrow-up"></i> 1.2%</div>
+            </div>
+            <div class="price-card silver">
+                <div class="metal-icon">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <h3>Silver</h3>
+                <div class="price">Rs. <span id="silver-price">1,450</span>/10g</div>
+                <div class="price-change down"><i class="fas fa-arrow-down"></i> 0.5%</div>
+            </div>
+            <div class="last-updated">
+                Last updated: <span id="last-updated">May 20, 2024 13:02 NPT</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="products" class="products">
+        <div class="section-header">
+            <h2>Our Products</h2>
+            <p>Invest in digital gold and silver with complete security</p>
+        </div>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="images/digital-gold.png" alt="Digital Gold">
+                </div>
+                <div class="product-info">
+                    <h3>Digital Gold</h3>
+                    <p>Buy 24K 99.9% pure digital gold backed by physical gold stored in secure vaults</p>
+                    <ul class="product-features">
+                        <li><i class="fas fa-check"></i> Start with as little as Rs. 100</li>
+                        <li><i class="fas fa-check"></i> Buy in grams or rupees</li>
+                        <li><i class="fas fa-check"></i> Sell anytime at market rates</li>
+                        <li><i class="fas fa-check"></i> Option for physical delivery</li>
+                    </ul>
+                    <a href="pages/buy-gold.html" class="btn btn-primary">Buy Now</a>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="images/digital-silver.png" alt="Digital Silver">
+                </div>
+                <div class="product-info">
+                    <h3>Digital Silver</h3>
+                    <p>Invest in 99.9% pure digital silver backed by physical silver stored in secure vaults</p>
+                    <ul class="product-features">
+                        <li><i class="fas fa-check"></i> Start with as little as Rs. 100</li>
+                        <li><i class="fas fa-check"></i> Buy in grams or rupees</li>
+                        <li><i class="fas fa-check"></i> Sell anytime at market rates</li>
+                        <li><i class="fas fa-check"></i> Option for physical delivery</li>
+                    </ul>
+                    <a href="pages/buy-silver.html" class="btn btn-primary">Buy Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="how-it-works">
+        <div class="section-header">
+            <h2>How It Works</h2>
+            <p>Simple, secure, and transparent process</p>
+        </div>
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h3>Register & KYC</h3>
+                <p>Create an account and complete KYC verification with your ID and documents</p>
+            </div>
+            <div class="step">
+                <div class="step-icon">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <h3>Add Funds</h3>
+                <p>Add money to your wallet using eSewa, Khalti, IMEPay, or other payment methods</p>
+            </div>
+            <div class="step">
+                <div class="step-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <h3>Buy Metals</h3>
+                <p>Purchase gold or silver in grams or for a specific amount at live market rates</p>
+            </div>
+            <div class="step">
+                <div class="step-icon">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <h3>Sell or Redeem</h3>
+                <p>Sell your digital metals anytime or request physical delivery to your doorstep</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="benefits" class="benefits">
+        <div class="section-header">
+            <h2>Why Choose NepalBullion?</h2>
+            <p>The smart way to invest in precious metals</p>
+        </div>
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>100% Secure</h3>
+                <p>Your digital gold and silver are backed by physical metals stored in secure vaults</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="fas fa-hand-holding-usd"></i>
+                </div>
+                <h3>Low Investment</h3>
+                <p>Start investing with as little as Rs. 100 and build your portfolio over time</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>Convenient</h3>
+                <p>Buy, sell, and manage your investments anytime, anywhere from your device</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="fas fa-percent"></i>
+                </div>
+                <h3>Best Rates</h3>
+                <p>Get competitive rates with transparent pricing and no hidden charges</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials" class="testimonials">
+        <div class="section-header">
+            <h2>What Our Customers Say</h2>
+            <p>Trusted by investors across Nepal</p>
+        </div>
+        <div class="testimonial-slider">
+            <div class="testimonial">
+                <div class="testimonial-content">
+                    <p>"NepalBullion made investing in gold so easy. I can buy small amounts every month and watch my investment grow. The KYC process was smooth and the app is very user-friendly."</p>
+                </div>
+                <div class="testimonial-author">
+                    <img src="images/testimonial-1.jpg" alt="Testimonial Author" class="author-img">
+                    <div class="author-info">
+                        <h4>Rajesh Sharma</h4>
+                        <p>Kathmandu</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial">
+                <div class="testimonial-content">
+                    <p>"I've been investing in physical gold for years, but digital gold is so much more convenient. No worries about storage or security, and I can sell anytime I need to."</p>
+                </div>
+                <div class="testimonial-author">
+                    <img src="images/testimonial-2.jpg" alt="Testimonial Author" class="author-img">
+                    <div class="author-info">
+                        <h4>Sunita Thapa</h4>
+                        <p>Pokhara</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial">
+                <div class="testimonial-content">
+                    <p>"The best part about NepalBullion is the payment options. I can use my eSewa wallet to buy gold instantly whenever I have some extra money. Great service!"</p>
+                </div>
+                <div class="testimonial-author">
+                    <img src="images/testimonial-3.jpg" alt="Testimonial Author" class="author-img">
+                    <div class="author-info">
+                        <h4>Binod Gurung</h4>
+                        <p>Biratnagar</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="faq">
+        <div class="section-header">
+            <h2>Frequently Asked Questions</h2>
+            <p>Get answers to common questions</p>
+        </div>
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Is digital gold the same as physical gold?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Digital gold represents ownership of physical gold that is stored in secure vaults. Each gram of digital gold you purchase is backed by an equivalent amount of 24K 99.9% pure physical gold.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>How is my investment secured?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Your digital gold and silver investments are backed by physical metals stored in secure, insured vaults. The physical metals are audited regularly to ensure 100% backing of all digital holdings.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Can I get physical delivery of my gold/silver?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes, you can request physical delivery of your gold or silver once you accumulate a minimum quantity (10 grams for gold, 100 grams for silver). Delivery charges and making charges will apply.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>What payment methods are accepted?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>We accept payments through popular digital wallets in Nepal including eSewa, Khalti, IMEPay, and ConnectIPS. You can also use bank transfers and credit/debit cards.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Why do I need to complete KYC?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>KYC (Know Your Customer) verification is required by regulations to prevent fraud, money laundering, and ensure the security of all users on our platform. It helps us verify your identity and protect your investments.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cta" class="cta-section">
+        <div class="cta-content">
+            <h2>Ready to Start Investing?</h2>
+            <p>Create your account today and begin your journey to financial security with digital gold and silver</p>
+            <div class="cta-buttons">
+                <a href="pages/register.html" class="btn btn-primary">Create Account</a>
+                <a href="#contact" class="btn btn-secondary">Contact Us</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="section-header">
+            <h2>Contact Us</h2>
+            <p>We're here to help with any questions</p>
+        </div>
+        <div class="contact-container">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h3>Address</h3>
+                        <p>Thamel, Kathmandu, Nepal</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <h3>Phone</h3>
+                        <p>+977 9800000000</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <h3>Email</h3>
+                        <p>info@nepalbullion.com</p>
+                    </div>
+                </div>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="contact-form">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="images/nepalbullion-logo.png" alt="NepalBullion">
+                <h3>NepalBullion</h3>
+            </div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Products</h4>
+                    <ul>
+                        <li><a href="pages/buy-gold.html">Digital Gold</a></li>
+                        <li><a href="pages/buy-silver.html">Digital Silver</a></li>
+                        <li><a href="pages/gift-cards.html">Gift Cards</a></li>
+                        <li><a href="pages/sip.html">Gold SIP</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="pages/about.html">About Us</a></li>
+                        <li><a href="pages/careers.html">Careers</a></li>
+                        <li><a href="pages/blog.html">Blog</a></li>
+                        <li><a href="pages/press.html">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="pages/help.html">Help Center</a></li>
+                        <li><a href="pages/terms.html">Terms of Service</a></li>
+                        <li><a href="pages/privacy.html">Privacy Policy</a></li>
+                        <li><a href="pages/refund.html">Refund Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 NepalBullion. All rights reserved.</p>
+            <div class="payment-icons">
+                <img src="images/esewa.png" alt="eSewa" class="payment-icon">
+                <img src="images/khalti.png" alt="Khalti" class="payment-icon">
+                <img src="images/imepay.png" alt="IMEPay" class="payment-icon">
+                <img src="images/connectips.png" alt="ConnectIPS" class="payment-icon">
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
+

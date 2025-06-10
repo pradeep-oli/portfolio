@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - NepalBullion</title>
+    <meta name="description" content="Create an account on NepalBullion to buy and sell digital gold and silver in Nepal.">
+    
+    <link rel="icon" type="image/png" href="../images/favicon.png">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="loading-line"></div>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="../index.html" class="logo">
+                <img src="../images/nepalbullion-logo.png" alt="NepalBullion" class="logo-img">
+                <span>NepalBullion</span>
+            </a>
+            <button class="menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links">
+                <div class="mobile-menu-header">
+                    <button class="close-btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <li><a href="../index.html#home">Home</a></li>
+                <li><a href="../index.html#products">Products</a></li>
+                <li><a href="../index.html#how-it-works">How It Works</a></li>
+                <li><a href="../index.html#pricing">Live Prices</a></li>
+                <li><a href="../index.html#about">About Us</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+                <li><a href="login.html" class="btn-login">Login</a></li>
+                <li><a href="register.html" class="btn-register">Register</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="auth-section">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <h2>Create Your Account</h2>
+                    <p>Start investing in digital gold and silver</p>
+                </div>
+                
+                <div class="registration-progress">
+                    <div class="progress-step active" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-label">Account</div>
+                    </div>
+                    <div class="progress-line"></div>
+                    <div class="progress-step" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-label">Personal</div>
+                    </div>
+                    <div class="progress-line"></div>
+                    <div class="progress-step" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-label">KYC</div>
+                    </div>
+                </div>
+                
+                <!-- Step 1: Account Information -->
+                <form id="registerStep1" class="auth-form registration-step active" data-step="1">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" id="phone" name="phone" placeholder="98XXXXXXXX" required>
+                        </div>
+                        <small class="form-hint">Enter a valid Nepali phone number</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" name="password" placeholder="Create a password" required>
+                            <button type="button" class="toggle-password">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <small class="form-hint">Minimum 8 characters with at least one uppercase letter, one number, and one special character</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+                        </div>
+                    </div>
+                    <div class="form-options">
+                        <div class="remember-me">
+                            <input type="checkbox" id="terms" name="terms" required>
+                            <label for="terms">I agree to the <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a></label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Continue</button>
+                </form>
+                
+                <!-- Step 2: Personal Information -->
+                <form id="registerStep2" class="auth-form registration-step" data-step="2">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="dob">Date of Birth</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-calendar"></i>
+                            <input type="date" id="dob" name="dob" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-venus-mars"></i>
+                            <select id="gender" name="gender" required>
+                                <option value="">Select gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-home"></i>
+                            <input type="text" id="address" name="address" placeholder="Enter your address" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-city"></i>
+                            <input type="text" id="city" name="city" placeholder="Enter your city" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="province">Province</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-map"></i>
+                            <select id="province" name="province" required>
+                                <option value="">Select province</option>
+                                <option value="province1">Koshi Province</option>
+                                <option value="province2">Madhesh Province</option>
+                                <option value="province3">Bagmati Province</option>
+                                <option value="province4">Gandaki Province</option>
+                                <option value="province5">Lumbini Province</option>
+                                <option value="province6">Karnali Province</option>
+                                <option value="province7">Sudurpashchim Province</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="button" class="btn btn-secondary btn-back">Back</button>
+                        <button type="submit" class="btn btn-primary">Continue</button>
+                    </div>
+                </form>
+                
+                <!-- Step 3: KYC Verification -->
+                <form id="registerStep3" class="auth-form registration-step" data-step="3">
+                    <div class="kyc-info">
+                        <div class="info-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <p>KYC (Know Your Customer) verification is required by regulations to prevent fraud and ensure the security of all users. Your information is encrypted and securely stored.</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="idType">ID Type</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-id-card"></i>
+                            <select id="idType" name="idType" required>
+                                <option value="">Select ID type</option>
+                                <option value="citizenship">Citizenship</option>
+                                <option value="passport">Passport</option>
+                                <option value="license">Driving License</option>
+                                <option value="voter">Voter ID</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="idNumber">ID Number</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-fingerprint"></i>
+                            <input type="text" id="idNumber" name="idNumber" placeholder="Enter your ID number" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="idFront">ID Front Side</label>
+                        <div class="file-upload">
+                            <input type="file" id="idFront" name="idFront" accept="image/*" required>
+                            <label for="idFront" class="file-label">
+                                <i class="fas fa-upload"></i>
+                                <span>Choose File</span>
+                            </label>
+                            <div class="file-preview" id="idFrontPreview"></div>
+                        </div>
+                        <small class="form-hint">Upload a clear image of the front side of your ID</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="idBack">ID Back Side</label>
+                        <div class="file-upload">
+                            <input type="file" id="idBack" name="idBack" accept="image/*" required>
+                            <label for="idBack" class="file-label">
+                                <i class="fas fa-upload"></i>
+                                <span>Choose File</span>
+                            </label>
+                            <div class="file-preview" id="idBackPreview"></div>
+                        </div>
+                        <small class="form-hint">Upload a clear image of the back side of your ID</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="selfie">Selfie with ID</label>
+                        <div class="file-upload">
+                            <input type="file" id="selfie" name="selfie" accept="image/*" required>
+                            <label for="selfie" class="file-label">
+                                <i class="fas fa-upload"></i>
+                                <span>Choose File</span>
+                            </label>
+                            <div class="file-preview" id="selfiePreview"></div>
+                        </div>
+                        <small class="form-hint">Upload a clear selfie of yourself holding your ID</small>
+                    </div>
+                    
+                    <div class="form-buttons">
+                        <button type="button" class="btn btn-secondary btn-back">Back</button>
+                        <button type="submit" class="btn btn-primary">Complete Registration</button>
+                    </div>
+                </form>
+                
+                <div class="auth-footer">
+                    <p>Already have an account? <a href="login.html">Login</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="../images/nepalbullion-logo.png" alt="NepalBullion">
+                <h3>NepalBullion</h3>
+            </div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Products</h4>
+                    <ul>
+                        <li><a href="buy-gold.html">Digital Gold</a></li>
+                        <li><a href="buy-silver.html">Digital Silver</a></li>
+                        <li><a href="gift-cards.html">Gift Cards</a></li>
+                        <li><a href="sip.html">Gold SIP</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="careers.html">Careers</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="press.html">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="help.html">Help Center</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="refund.html">Refund Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 NepalBullion. All rights reserved.</p>
+            <div class="payment-icons">
+                <img src="../images/esewa.png" alt="eSewa" class="payment-icon">
+                <img src="../images/khalti.png" alt="Khalti" class="payment-icon">
+                <img src="../images/imepay.png" alt="IMEPay" class="payment-icon">
+                <img src="../images/connectips.png" alt="ConnectIPS" class="payment-icon">
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/auth.js"></script>
+</body>
+</html>
+
