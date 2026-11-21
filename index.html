@@ -1,0 +1,2443 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PRADEEP OLI - ANDROID DEV</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="favicon.png" />
+  <meta
+    name="description"
+    content="Pradeep Oli is an independent Android developer behind Cosome Apps Studio in Kathmandu, Nepal, shipping fast utilities and social tools on Google Play."
+  />
+
+  <!-- Typography: Plus Jakarta Sans (400, 500, 600, 700) and JetBrains Mono (400, 500) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Restore persisted theme before first paint to prevent flash -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('cosome_theme');
+        if (saved === 'dark' || saved === 'light') {
+          document.documentElement.setAttribute('data-theme', saved);
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <style>
+    /* ==========================================================================
+       DESIGN TOKENS: CONTINUOUS OPEN CANVAS (ZERO BOXES, ZERO ROUNDED CARDS)
+       ========================================================================== */
+    :root {
+      --canvas: #F7F6F2;
+      --ink: #111113;
+      --ink-muted: #66666D;
+      --hairline: #E3E1DA;
+      --hairline-strong: rgba(17, 17, 19, 0.34);
+      --positive: #15803D;
+      --negative: #B91C1C;
+      --ambient-color: #0D5BFF;
+      --ambient-opacity: 0.07;
+
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+      --max-w: 980px;
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    [data-theme="dark"] {
+      --canvas: #0B0B0D;
+      --ink: #F4F4F5;
+      --ink-muted: #8E8E95;
+      --hairline: #222227;
+      --hairline-strong: rgba(244, 244, 245, 0.36);
+      --positive: #4ADE80;
+      --negative: #F87171;
+      --ambient-opacity: 0.12;
+    }
+
+    /* ==========================================================================
+       BASE RESET & EDITORIAL TYPOGRAPHY
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 76px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      position: relative;
+      min-height: 100vh;
+      background-color: var(--canvas);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.55;
+      overflow-x: clip;
+      transition: background-color 260ms ease, color 260ms ease;
+    }
+
+    ::selection {
+      background: var(--ink);
+      color: var(--canvas);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      color: inherit;
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      cursor: pointer;
+    }
+
+    :focus-visible {
+      outline: 1.5px solid var(--ink);
+      outline-offset: 4px;
+    }
+
+    .mono {
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .frame {
+      width: 100%;
+      max-width: var(--max-w);
+      margin-inline: auto;
+      padding-inline: clamp(20px, 4.5vw, 40px);
+    }
+
+    .is-hidden {
+      display: none !important;
+    }
+
+    /* Bare Underlined Text Link / Action (Zero Boxes, Zero Pills) */
+    .u-link {
+      position: relative;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 4px;
+      padding-bottom: 3px;
+      font-weight: 500;
+      color: var(--ink);
+      border-bottom: 1px solid var(--hairline-strong);
+      border-radius: 0;
+      transition: border-color 180ms ease, color 180ms ease, opacity 180ms ease;
+    }
+
+    .u-link:hover {
+      border-bottom-color: var(--ink);
+    }
+
+    .u-link .arrow {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.92em;
+      transition: transform 200ms var(--ease-out);
+    }
+
+    .u-link:hover .arrow {
+      transform: translate(2px, -2px);
+    }
+
+    .u-link--down:hover .arrow {
+      transform: translateY(2px);
+    }
+
+    .u-link--muted {
+      color: var(--ink-muted);
+      border-bottom-color: transparent;
+    }
+
+    .u-link--muted:hover {
+      color: var(--ink);
+      border-bottom-color: var(--hairline-strong);
+    }
+
+    .copy-link.is-copied {
+      color: var(--positive);
+      border-bottom-color: var(--positive);
+    }
+
+    /* ==========================================================================
+       1. STICKY OPEN TOP BAR (NO BOXED BACKDROP, 1PX HAIRLINE ON SCROLL)
+       ========================================================================== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background-color: var(--canvas);
+      border-bottom: 1px solid transparent;
+      transition: background-color 260ms ease, border-color 200ms ease;
+    }
+
+    .site-header.is-scrolled {
+      border-bottom-color: var(--hairline);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 20px;
+      padding-block: clamp(18px, 2.8vh, 24px);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 7px;
+      font-size: 14.5px;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    .brand-name {
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .brand-studio {
+      font-weight: 400;
+      color: var(--ink-muted);
+    }
+
+    .site-nav {
+      display: flex;
+      align-items: baseline;
+      gap: clamp(16px, 3vw, 28px);
+      font-size: 14px;
+    }
+
+    .nav-item,
+    .theme-switch {
+      color: var(--ink-muted);
+      font-weight: 500;
+      padding-bottom: 2px;
+      border-bottom: 1px solid transparent;
+      transition: color 180ms ease, border-color 180ms ease;
+    }
+
+    .nav-item:hover,
+    .theme-switch:hover {
+      color: var(--ink);
+      border-bottom-color: var(--hairline-strong);
+    }
+
+    /* ==========================================================================
+       2. HERO SECTION (OPEN EDITORIAL CANVAS)
+       ========================================================================== */
+    .hero {
+      padding-top: clamp(60px, 11vh, 116px);
+      padding-bottom: clamp(72px, 11vh, 116px);
+    }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+
+    .hero-title {
+      margin-top: 18px;
+      font-size: clamp(2.4rem, 6.2vw, 4.3rem);
+      font-weight: 700;
+      letter-spacing: -0.042em;
+      line-height: 1.04;
+      color: var(--ink);
+      max-width: 14ch;
+    }
+
+    .hero-line {
+      margin-top: 22px;
+      font-size: clamp(1rem, 1.8vw, 1.15rem);
+      font-weight: 400;
+      color: var(--ink-muted);
+      max-width: 56ch;
+      line-height: 1.55;
+    }
+
+    .hero-links {
+      margin-top: 34px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 14px 28px;
+      font-size: 14.5px;
+    }
+
+    /* ==========================================================================
+       SHARED SECTION HAIRLINE BANDS
+       ========================================================================== */
+    .band {
+      position: relative;
+      border-top: 1px solid var(--hairline);
+      padding-top: 26px;
+      padding-bottom: clamp(72px, 11vh, 120px);
+    }
+
+    .band-bar {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* Bare Underlined View Switcher (Spotlight / Index) */
+    .view-switch {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 18px;
+      font-size: 13.5px;
+    }
+
+    .view-sep {
+      color: var(--hairline-strong);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      user-select: none;
+    }
+
+    .view-tab {
+      font-weight: 500;
+      color: var(--ink-muted);
+      padding-bottom: 4px;
+      border-bottom: 1.5px solid transparent;
+      transition: color 180ms ease, border-color 180ms ease;
+    }
+
+    .view-tab:hover {
+      color: var(--ink);
+    }
+
+    .view-tab.is-active {
+      color: var(--ink);
+      border-bottom-color: var(--ink);
+    }
+
+    /* ==========================================================================
+       3. APPS SHOWCASE (#apps) & SUBTLE AMBIENT RADIAL TINT
+       ========================================================================== */
+    .apps-band {
+      overflow: visible;
+    }
+
+    /* Ultra-Restrained Ambient Radial Glow Behind Active App Area */
+    .apps-ambient {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(1160px, 130vw);
+      height: 520px;
+      pointer-events: none;
+      z-index: 0;
+      background-color: var(--ambient-color);
+      opacity: var(--ambient-opacity);
+      -webkit-mask-image: radial-gradient(ellipse 52% 52% at 50% 42%, #000 0%, rgba(0, 0, 0, 0.36) 44%, transparent 74%);
+      mask-image: radial-gradient(ellipse 52% 52% at 50% 42%, #000 0%, rgba(0, 0, 0, 0.36) 44%, transparent 74%);
+      transition: background-color 560ms var(--ease-out), opacity 300ms ease;
+      will-change: background-color;
+    }
+
+    .apps-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* 3A. SPOTLIGHT: FREE-FLOATING MAGNETIC ICON ROW */
+    .magnetic-row-wrap {
+      padding-top: clamp(42px, 6.5vh, 64px);
+      padding-bottom: clamp(40px, 5.5vh, 54px);
+      display: flex;
+      justify-content: center;
+    }
+
+    .magnetic-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: clamp(16px, 3vw, 38px);
+      width: 100%;
+      max-width: 780px;
+      padding-top: 22px;
+      padding-bottom: 24px;
+    }
+
+    .dock-item {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+      padding: 0;
+      will-change: margin;
+    }
+
+    /* Real Google Play Store Squircle Icon (Only element with 22% rounding) */
+    .app-icon-dock {
+      width: 66px;
+      height: 66px;
+      border-radius: 22%;
+      display: block;
+      object-fit: cover;
+      pointer-events: none;
+      transform-origin: center bottom;
+      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.14));
+      will-change: transform;
+    }
+
+    [data-theme="dark"] .app-icon-dock {
+      filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.56));
+    }
+
+    /* Tiny 4px Active Indicator Dot Underneath Active Icon */
+    .dock-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      margin-top: 12px;
+      background-color: var(--ink);
+      opacity: 0;
+      transform: scale(0.4);
+      transition: opacity 200ms ease, transform 220ms var(--ease-out), background-color 220ms ease;
+    }
+
+    .dock-item.is-active .dock-dot {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Plain Hover Label Beneath Icon (Zero Box) */
+    .dock-caption {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%) translateY(3px);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      color: var(--ink-muted);
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 160ms ease, transform 180ms var(--ease-out);
+    }
+
+    .dock-item:hover .dock-caption,
+    .dock-item:focus-visible .dock-caption {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Unboxed Horizontal Spotlight Layout Below Floating Icons */
+    .spotlight-detail {
+      border-top: 1px solid var(--hairline);
+      padding-top: clamp(28px, 5vh, 42px);
+      display: grid;
+      grid-template-columns: 76px minmax(0, 1fr) auto;
+      gap: 24px clamp(22px, 4vw, 44px);
+      align-items: start;
+    }
+
+    .spotlight-detail.is-settling {
+      animation: fadeLift 240ms var(--ease-out);
+    }
+
+    @keyframes fadeLift {
+      from {
+        opacity: 0;
+        transform: translateY(5px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .app-icon-feature {
+      width: 76px;
+      height: 76px;
+      border-radius: 22%;
+      display: block;
+      object-fit: cover;
+      filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.14));
+    }
+
+    [data-theme="dark"] .app-icon-feature {
+      filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.55));
+    }
+
+    .spotlight-meta {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+
+    .spotlight-rating {
+      color: var(--ink);
+    }
+
+    .spotlight-title {
+      margin-top: 10px;
+      font-size: clamp(1.5rem, 3.1vw, 2.05rem);
+      font-weight: 700;
+      letter-spacing: -0.032em;
+      line-height: 1.14;
+      color: var(--ink);
+    }
+
+    .spotlight-desc {
+      margin-top: 10px;
+      font-size: 15.5px;
+      color: var(--ink-muted);
+      max-width: 52ch;
+      line-height: 1.55;
+    }
+
+    .spotlight-tech {
+      margin-top: 14px;
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      color: var(--ink-muted);
+    }
+
+    .spotlight-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 20px;
+      padding-top: 4px;
+    }
+
+    .spotlight-play {
+      font-size: 14.5px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .spotlight-pager {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 14px;
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      color: var(--ink-muted);
+    }
+
+    .pager-btn {
+      padding-bottom: 2px;
+      border-bottom: 1px solid transparent;
+      transition: color 160ms ease, border-color 160ms ease;
+    }
+
+    .pager-btn:hover {
+      color: var(--ink);
+      border-bottom-color: var(--hairline-strong);
+    }
+
+    /* 3B. INDEX VIEW: UNBOXED EDITORIAL LIST WITH 1PX HAIRLINES */
+    .index-list {
+      margin-top: 32px;
+      list-style: none;
+    }
+
+    .index-row {
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr) auto auto;
+      align-items: center;
+      gap: 16px 24px;
+      padding-block: 18px;
+      border-top: 1px solid var(--hairline);
+      cursor: pointer;
+      transition: padding-left 220ms var(--ease-out), opacity 180ms ease;
+    }
+
+    .index-row:last-child {
+      border-bottom: 1px solid var(--hairline);
+    }
+
+    .index-row:hover {
+      padding-left: 6px;
+    }
+
+    .index-list:hover .index-row:not(:hover) {
+      opacity: 0.68;
+    }
+
+    .app-icon-sm {
+      width: 44px;
+      height: 44px;
+      border-radius: 22%;
+      display: block;
+      object-fit: cover;
+      filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.13));
+    }
+
+    [data-theme="dark"] .app-icon-sm {
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.5));
+    }
+
+    .index-copy {
+      min-width: 0;
+    }
+
+    .index-name {
+      display: block;
+      font-size: 15.5px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .index-liner {
+      display: block;
+      margin-top: 2px;
+      font-size: 14px;
+      color: var(--ink-muted);
+    }
+
+    .index-meta {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--ink-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+    }
+
+    .index-play {
+      font-size: 13.5px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    /* ==========================================================================
+       4. CLIENT-SIDE IMAGE CONVERTER (#converter)
+       ========================================================================== */
+    .converter-head {
+      margin-top: 26px;
+      margin-bottom: 36px;
+    }
+
+    .converter-title {
+      margin-top: 10px;
+      font-size: clamp(1.55rem, 3vw, 2.05rem);
+      font-weight: 700;
+      letter-spacing: -0.032em;
+      line-height: 1.15;
+      color: var(--ink);
+    }
+
+    .converter-sub {
+      margin-top: 8px;
+      font-size: 15px;
+      color: var(--ink-muted);
+      max-width: 58ch;
+    }
+
+    /* EMPTY / DEFAULT UPLOAD STATE (Flat Zero-Radius Dashed Hairline Guide) */
+    .upload-zone {
+      width: 100%;
+      border: 1px dashed var(--hairline-strong);
+      border-radius: 0;
+      background: transparent;
+      padding: clamp(52px, 9vh, 84px) 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: border-color 180ms ease, opacity 180ms ease;
+    }
+
+    .upload-zone:hover,
+    .upload-zone.is-dragover {
+      border-color: var(--ink);
+    }
+
+    .upload-zone.is-busy {
+      opacity: 0.65;
+      pointer-events: none;
+    }
+
+    .upload-svg {
+      width: 24px;
+      height: 24px;
+      color: var(--ink);
+      margin-bottom: 4px;
+      transition: transform 220ms var(--ease-out);
+    }
+
+    .upload-zone:hover .upload-svg,
+    .upload-zone.is-dragover .upload-svg {
+      transform: translateY(-3px);
+    }
+
+    .upload-prompt {
+      font-size: 15.5px;
+      font-weight: 500;
+      color: var(--ink);
+      letter-spacing: -0.015em;
+    }
+
+    .upload-trigger-label {
+      font-size: 14px;
+    }
+
+    .upload-helper {
+      margin-top: 4px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--ink-muted);
+      letter-spacing: 0.02em;
+    }
+
+    /* ACTIVE STATE (REVEALED ONLY AFTER USER UPLOADS AN IMAGE) */
+    .converter-workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.85fr);
+      gap: clamp(28px, 5vw, 56px);
+      align-items: start;
+      animation: fadeLift 260ms var(--ease-out);
+    }
+
+    .stage-figure {
+      margin: 0;
+      width: 100%;
+    }
+
+    .stage-top-labels {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+
+    .compare-stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      max-height: 460px;
+      border: 1px solid var(--hairline);
+      border-radius: 0;
+      overflow: hidden;
+      background-color: transparent;
+      user-select: none;
+      touch-action: pan-y;
+      --split: 50%;
+      transition: border-color 180ms ease;
+    }
+
+    .compare-stage.is-dragover {
+      border-color: var(--ink);
+    }
+
+    .compare-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+    }
+
+    .compare-img--orig {
+      clip-path: inset(0 calc(100% - var(--split)) 0 0);
+    }
+
+    /* Crisp 1px Vertical Divider Curtain Handle (Zero Rounded Box) */
+    .compare-divider {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: var(--split);
+      width: 1px;
+      background: #FFFFFF;
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.55);
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .compare-divider::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 3px;
+      height: 28px;
+      background: #FFFFFF;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+    }
+
+    .compare-scrubber {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: ew-resize;
+      z-index: 5;
+      margin: 0;
+    }
+
+    .stage-caption {
+      margin-top: 10px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--ink-muted);
+    }
+
+    .stage-filename {
+      color: var(--ink);
+      max-width: 260px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Right Column: Unboxed Bare Controls Separated by 1px Hairlines */
+    .tool-controls {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ctrl-block {
+      padding-block: 16px;
+      border-top: 1px solid var(--hairline);
+    }
+
+    .ctrl-block.is-disabled {
+      opacity: 0.42;
+      pointer-events: none;
+    }
+
+    .ctrl-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .ctrl-label {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--ink-muted);
+    }
+
+    .ctrl-val {
+      font-family: var(--font-mono);
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    /* Minimalist 1px Line Range Track + Sharp Square Thumb (border-radius: 0) */
+    .hairline-range {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 24px;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .hairline-range::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 1px;
+      background: var(--hairline-strong);
+    }
+
+    .hairline-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 11px;
+      height: 11px;
+      margin-top: -5px;
+      border-radius: 0;
+      background: var(--ink);
+      border: 0;
+      transition: transform 150ms var(--ease-out);
+    }
+
+    .hairline-range::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    .hairline-range::-moz-range-track {
+      width: 100%;
+      height: 1px;
+      background: var(--hairline-strong);
+    }
+
+    .hairline-range::-moz-range-thumb {
+      width: 11px;
+      height: 11px;
+      border-radius: 0;
+      background: var(--ink);
+      border: 0;
+    }
+
+    /* Bare Underlined Text Option Rows (Format & Max Width) */
+    .width-options {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 18px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+    }
+
+    .width-opt {
+      color: var(--ink-muted);
+      padding-bottom: 3px;
+      border-bottom: 1.5px solid transparent;
+      transition: color 160ms ease, border-color 160ms ease;
+    }
+
+    .width-opt:hover {
+      color: var(--ink);
+    }
+
+    .width-opt.is-active {
+      color: var(--ink);
+      border-bottom-color: var(--ink);
+    }
+
+    /* Live Telemetry Definition List (1px Hairlines Only) */
+    .telemetry-list {
+      margin: 0;
+    }
+
+    .telemetry-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      padding-block: 11px;
+      border-top: 1px solid var(--hairline);
+    }
+
+    .telemetry-row dt {
+      font-size: 13.5px;
+      color: var(--ink-muted);
+    }
+
+    .telemetry-row dd {
+      font-family: var(--font-mono);
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .telemetry-row dd.is-saved {
+      color: var(--positive);
+    }
+
+    .telemetry-row dd.is-neutral {
+      color: var(--ink-muted);
+    }
+
+    /* Bare Underlined Action Links Row */
+    .tool-actions {
+      border-top: 1px solid var(--hairline);
+      padding-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 14px 24px;
+      font-size: 14px;
+    }
+
+    .tool-status {
+      margin-top: 12px;
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      color: var(--ink-muted);
+      min-height: 18px;
+    }
+
+    .tool-status.is-error {
+      color: var(--negative);
+    }
+
+    /* ==========================================================================
+       5. CONTACT & FOOTER (#contact)
+       ========================================================================== */
+    .site-footer {
+      border-top: 1px solid var(--hairline);
+      padding-top: clamp(44px, 7vh, 64px);
+      padding-bottom: clamp(40px, 6vh, 60px);
+    }
+
+    .contact-line {
+      font-size: clamp(1rem, 1.8vw, 1.12rem);
+      color: var(--ink);
+      max-width: 58ch;
+      line-height: 1.55;
+    }
+
+    .contact-nav {
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 14px 30px;
+      font-size: 14.5px;
+    }
+
+    /* ==========================================================================
+       RESPONSIVE LAYOUT (MOBILE / TABLET / DESKTOP)
+       ========================================================================== */
+    @media (max-width: 820px) {
+      .spotlight-detail {
+        grid-template-columns: 76px minmax(0, 1fr);
+      }
+
+      .spotlight-actions {
+        grid-column: 1 / -1;
+        flex-direction: row;
+        align-items: baseline;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        padding-top: 4px;
+      }
+
+      .converter-workspace {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .index-row {
+        grid-template-columns: 44px minmax(0, 1fr) auto;
+      }
+
+      .index-meta {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .brand-studio {
+        display: none;
+      }
+
+      .site-nav {
+        gap: 16px;
+        font-size: 13.5px;
+      }
+
+      .magnetic-row-wrap {
+        justify-content: flex-start;
+        margin-inline: calc(clamp(20px, 4.5vw, 40px) * -1);
+        padding-inline: clamp(20px, 4.5vw, 40px);
+        padding-top: 28px;
+        padding-bottom: 24px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        scroll-snap-type: x proximity;
+      }
+
+      .magnetic-row-wrap::-webkit-scrollbar {
+        display: none;
+      }
+
+      .magnetic-row {
+        width: max-content;
+        max-width: none;
+        gap: 20px;
+        padding-top: 8px;
+        padding-bottom: 18px;
+      }
+
+      .dock-item {
+        scroll-snap-align: center;
+      }
+
+      .app-icon-dock {
+        width: 56px;
+        height: 56px;
+      }
+
+      .dock-caption {
+        display: none;
+      }
+
+      .spotlight-detail {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .index-row {
+        gap: 14px;
+      }
+
+      .index-row:hover {
+        padding-left: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body id="top">
+  <!-- ========================================================================
+       1. STICKY OPEN TOP BAR
+       ======================================================================== -->
+  <header class="site-header" id="siteHeader">
+    <div class="frame header-inner">
+      <a href="#top" class="brand" aria-label="Pradeep Oli, Cosome Apps Studio">
+        <span class="brand-name">Pradeep Oli</span>
+        <span class="brand-studio">/ Cosome Apps Studio</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="#apps" class="nav-item">Apps</a>
+        <a href="#converter" class="nav-item">Converter</a>
+        <a href="#contact" class="nav-item">Contact</a>
+        <button type="button" class="theme-switch" id="themeSwitch" aria-label="Toggle color theme">Dark</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="frame">
+    <!-- ======================================================================
+         2. HERO SECTION
+         ====================================================================== -->
+    <section class="hero" aria-label="Introduction">
+      <p class="eyebrow">ANDROID DEVELOPER / KATHMANDU, NEPAL</p>
+      <h1 class="hero-title">Building fast, focused Android apps.</h1>
+      <p class="hero-line">
+        Independent mobile studio shipping utilities and social tools on Google Play.
+      </p>
+
+      <nav class="hero-links" aria-label="Primary links">
+        <a
+          href="https://play.google.com/store/search?q=pub%3ACosome%20Apps%20Studio&c=apps"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="u-link"
+        >
+          <span>Google Play</span>
+          <span class="arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a
+          href="https://x.com/tonystark_mk3"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="u-link"
+        >
+          <span>X</span>
+          <span class="arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a
+          href="https://github.com/pradeep-oli"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="u-link"
+        >
+          <span>GitHub</span>
+          <span class="arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <button
+          type="button"
+          class="u-link copy-link"
+          data-copy-email="hero"
+          aria-label="Copy email address cosomestudio@gmail.com"
+        >
+          Email
+        </button>
+      </nav>
+    </section>
+
+    <!-- ======================================================================
+         3. APPS SHOWCASE (#apps)
+         ====================================================================== -->
+    <section id="apps" class="band apps-band" aria-label="Shipped Apps">
+      <!-- Subtle Open-Canvas Ambient Radial Tint -->
+      <span class="apps-ambient" id="appsAmbient" aria-hidden="true"></span>
+
+      <header class="band-bar">
+        <span class="eyebrow">SHIPPED APPS / 07 ON GOOGLE PLAY</span>
+
+        <nav class="view-switch" role="tablist" aria-label="Apps view switcher">
+          <button type="button" class="view-tab is-active" role="tab" aria-selected="true" data-view="spotlight">Spotlight</button>
+          <span class="view-sep" aria-hidden="true">/</span>
+          <button type="button" class="view-tab" role="tab" aria-selected="false" data-view="index">Index</button>
+        </nav>
+      </header>
+
+      <div class="apps-content">
+        <!-- SPOTLIGHT VIEW: Free-Floating Magnetic Row + Horizontal Detail -->
+        <section id="spotlightPane" aria-label="Spotlight view">
+          <nav class="magnetic-row-wrap" aria-label="Select an app">
+            <menu class="magnetic-row" id="magneticRow" role="listbox" aria-label="Cosome Apps Studio lineup"></menu>
+          </nav>
+
+          <article class="spotlight-detail" id="spotlightDetail" aria-live="polite"></article>
+        </section>
+
+        <!-- INDEX VIEW: Editorial List Separated by 1px Hairlines -->
+        <ol id="indexPane" class="index-list is-hidden" aria-label="Complete list of 7 apps"></ol>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         4. CLIENT-SIDE IMAGE CONVERTER (#converter)
+         ====================================================================== -->
+    <section id="converter" class="band" aria-label="Image Converter">
+      <header class="converter-head">
+        <p class="eyebrow">LOCAL UTILITY / CANVAS + LIBHEIF</p>
+        <h2 class="converter-title">Image Converter</h2>
+        <p class="converter-sub">Convert iPhone HEIC, PNG, WebP, or JPG locally in your browser. Zero server uploads.</p>
+      </header>
+
+      <!-- Hidden File Input (Includes HEIC / HEIF / HIF for iPhone photos) -->
+      <input
+        type="file"
+        id="imageInput"
+        accept="image/*,.heic,.heif,.hif"
+        style="display: none;"
+        aria-label="Choose a local image file to convert"
+      />
+
+      <!-- EMPTY / DEFAULT UPLOAD STATE (Visible on initial page load) -->
+      <section
+        id="uploadEmptyState"
+        class="upload-zone"
+        role="button"
+        tabindex="0"
+        aria-label="Drop an image here or click to upload"
+      >
+        <svg class="upload-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true">
+          <path d="M12 17V5" />
+          <path d="M7 10L12 5L17 10" />
+          <path d="M5 20H19" />
+        </svg>
+        <p class="upload-prompt" id="uploadPrompt">Drop an image here or click to upload</p>
+        <span class="u-link upload-trigger-label">Choose image</span>
+        <p class="upload-helper">HEIC, HEIF, PNG, WebP, AVIF, BMP, or JPG</p>
+      </section>
+
+      <!-- ACTIVE CONVERTER WORKSPACE (Hidden until user uploads an actual image) -->
+      <article id="converterActiveState" class="converter-workspace is-hidden" aria-label="Active image converter">
+        <!-- Left Column: Sharp-Edged Before/After Split Curtain -->
+        <figure class="stage-figure">
+          <figcaption class="stage-top-labels">
+            <span id="stageLeftLabel">ORIGINAL</span>
+            <span id="stageRightLabel">JPG / 85%</span>
+          </figcaption>
+
+          <section
+            class="compare-stage"
+            id="compareStage"
+            aria-label="Before and after split comparison. Drag slider or drop another image to replace."
+          >
+            <img id="outputPreviewImg" class="compare-img" alt="Converted output image" />
+            <img id="origPreviewImg" class="compare-img compare-img--orig" alt="Original uploaded image" />
+            <span class="compare-divider" aria-hidden="true"></span>
+            <input
+              type="range"
+              id="splitScrubber"
+              class="compare-scrubber"
+              min="0"
+              max="100"
+              value="50"
+              aria-label="Compare original image on left and converted output on right"
+            />
+          </section>
+
+          <figcaption class="stage-caption">
+            <span class="stage-filename" id="stageFileName"></span>
+            <span id="stageDimensions"></span>
+          </figcaption>
+        </figure>
+
+        <!-- Right Column: Unboxed Bare Controls & Live Telemetry -->
+        <section class="tool-controls" aria-label="Conversion controls and output metrics">
+          <section class="ctrl-block">
+            <p class="ctrl-head">
+              <span class="ctrl-label">Output format</span>
+            </p>
+            <nav class="width-options" id="formatOptions" aria-label="Output image format">
+              <button type="button" class="width-opt is-active" data-format="image/jpeg" data-ext="jpg" data-label="JPG">JPG</button>
+              <button type="button" class="width-opt" data-format="image/png" data-ext="png" data-label="PNG">PNG</button>
+              <button type="button" class="width-opt" data-format="image/webp" data-ext="webp" data-label="WebP">WebP</button>
+            </nav>
+          </section>
+
+          <section class="ctrl-block" id="qualityBlock">
+            <label class="ctrl-head" for="qualityInput">
+              <span class="ctrl-label">Quality</span>
+              <span class="ctrl-val" id="qualityValue">85%</span>
+            </label>
+            <input
+              type="range"
+              id="qualityInput"
+              class="hairline-range"
+              min="10"
+              max="100"
+              value="85"
+              aria-label="Compression quality from 10 percent to 100 percent"
+            />
+          </section>
+
+          <section class="ctrl-block">
+            <p class="ctrl-head">
+              <span class="ctrl-label">Max width</span>
+            </p>
+            <nav class="width-options" id="widthOptions" aria-label="Maximum output width">
+              <button type="button" class="width-opt is-active" data-width="0">Original</button>
+              <button type="button" class="width-opt" data-width="1920">1920</button>
+              <button type="button" class="width-opt" data-width="1280">1280</button>
+              <button type="button" class="width-opt" data-width="800">800</button>
+            </nav>
+          </section>
+
+          <dl class="telemetry-list" aria-live="polite">
+            <div class="telemetry-row">
+              <dt>Original size</dt>
+              <dd id="statOrigSize"></dd>
+            </div>
+            <div class="telemetry-row">
+              <dt id="statOutputLabel">JPG size</dt>
+              <dd id="statOutputSize"></dd>
+            </div>
+            <div class="telemetry-row">
+              <dt>Size change</dt>
+              <dd id="statReduction"></dd>
+            </div>
+            <div class="telemetry-row">
+              <dt>Encode time</dt>
+              <dd id="statEncodeMs"></dd>
+            </div>
+          </dl>
+
+          <nav class="tool-actions" aria-label="Converter actions">
+            <button type="button" class="u-link u-link--down" id="downloadOutputBtn">
+              <span id="downloadOutputLabel">Download JPG</span>
+              <span class="arrow" aria-hidden="true">↓</span>
+            </button>
+            <button type="button" class="u-link u-link--muted" id="uploadAnotherBtn">Upload another</button>
+            <button type="button" class="u-link u-link--muted" id="clearImageBtn">Clear</button>
+          </nav>
+        </section>
+      </article>
+
+      <p class="tool-status" id="toolStatus" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <!-- ========================================================================
+       5. CONTACT & FOOTER (#contact)
+       ======================================================================== -->
+  <footer id="contact" class="frame site-footer">
+    <p class="contact-line">
+      Open for Android contracts, product collaborations, and studio inquiries.
+    </p>
+
+    <nav class="contact-nav" aria-label="Contact and social links">
+      <button
+        type="button"
+        class="u-link copy-link"
+        data-copy-email="footer"
+        aria-label="Copy email address cosomestudio@gmail.com"
+      >
+        cosomestudio@gmail.com
+      </button>
+
+      <a
+        href="https://play.google.com/store/search?q=pub%3ACosome%20Apps%20Studio&c=apps"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="u-link"
+      >
+        <span>Google Play</span>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+
+      <a
+        href="https://x.com/tonystark_mk3"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="u-link"
+      >
+        <span>X</span>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+
+      <a
+        href="https://github.com/pradeep-oli"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="u-link"
+      >
+        <span>GitHub</span>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+    </nav>
+  </footer>
+
+  <!-- ========================================================================
+       VANILLA ES6+: THEME, MAGNETIC ICON PHYSICS, VIEWS & LOCAL HEIC ENGINE
+       ======================================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      const EMAIL = 'cosomestudio@gmail.com';
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+
+      /* ----------------------------------------------------------------------
+         1. ALL 7 REAL APPS DATA (COSOME APPS STUDIO)
+         ---------------------------------------------------------------------- */
+      const APPS = [
+        {
+          id: 'heic-to-jpg',
+          shortName: 'HEIC to JPG',
+          title: 'HEIC to JPG: Image Converter',
+          category: 'Utility',
+          rating: '',
+          color: '#0D5BFF',
+          icon: 'https://play-lh.googleusercontent.com/3HtltLLum1j7ahFx2eqRS3FNwQaMU50l1TWSTH53pP_r-1dQr636ytwWo4WVKhnenneNDneEUIgaPZOxoSuHmA=w480-h960-rw',
+          oneLiner: 'Instant offline HEIC to JPG image conversion directly on your device.',
+          tech: 'Kotlin / Android SDK / On-Device',
+          url: 'https://play.google.com/store/search?q=HEIC%20to%20JPG%20Cosome%20Apps%20Studio&c=apps'
+        },
+        {
+          id: 'deeplee-ask',
+          shortName: 'Deeplee Ask',
+          title: 'Deeplee Ask: Couple Questions',
+          category: 'Lifestyle',
+          rating: '',
+          color: '#7F1734',
+          icon: 'https://play-lh.googleusercontent.com/RQriD-hn6Ui2PLj6gx5Nk93AroDLBB94bQMWi0FoWpT9BKHuVGPlKDJ0iYWZ0MxTU--FDZSpIUuPGyDhvOXiXw=w480-h960-rw',
+          oneLiner: 'Deep questions and meaningful prompts crafted for couples.',
+          tech: 'Flutter / Dart / Offline Decks',
+          url: 'https://play.google.com/store/search?q=Deeplee%20Ask%20Cosome%20Apps%20Studio&c=apps'
+        },
+        {
+          id: 'flirtpal',
+          shortName: 'FlirtPal',
+          title: 'FlirtPal: Pick Up Lines & Rizz',
+          category: 'Social',
+          rating: '',
+          color: '#E06D94',
+          icon: 'https://play-lh.googleusercontent.com/_3wxqYWWAlCZz2ftGwf8KlXABjz65s82_ij2KoEzs6RGrlFWUs_M5T3kA1jov4g7KAfIjfjKwjNur81mWW5rg1g=w480-h960-rw',
+          oneLiner: 'Curated pickup lines and witty rizz openers ready to copy and send.',
+          tech: 'Flutter / Dart / Curated Feeds',
+          url: 'https://play.google.com/store/search?q=FlirtPal%20Cosome%20Apps%20Studio&c=apps'
+        },
+        {
+          id: 'savagebot',
+          shortName: 'Savagebot',
+          title: 'Savagebot: AI Roast Comebacks',
+          category: 'AI & Fun',
+          rating: '',
+          color: '#E85D04',
+          icon: 'https://play-lh.googleusercontent.com/fT65JjOBt7ZFfkcOgTwsCaoBlZCqc0q2MtTAtucGG50XP-fPVkH3bQJ9clAHITIAvWBnOpuZ_gPjo6DmryY_P6k=w480-h960-rw',
+          oneLiner: 'Sharp AI-powered comebacks and playful roasts on demand.',
+          tech: 'Flutter / Generative AI / Fast UI',
+          url: 'https://play.google.com/store/search?q=Savagebot%20Cosome%20Apps%20Studio&c=apps'
+        },
+        {
+          id: 'litcaps',
+          shortName: 'Litcaps',
+          title: 'Litcaps: Captions for Instagram',
+          category: 'Social',
+          rating: '',
+          color: '#7B2CBF',
+          icon: 'https://play-lh.googleusercontent.com/sCF8LULSUi2Z1r7TUy6v5B6QdeSXWCpqCp8nPkkXJ1PbEcmQHpJ3JjlwDoscbTmK3hVHI7oQ8XoBD4e4vuujTLU=w480-h960-rw',
+          oneLiner: 'Mood-sorted Instagram captions built for quick discovery and sharing.',
+          tech: 'Flutter / Dart / Instant Copy',
+          url: 'https://play.google.com/store/search?q=Litcaps%20Cosome%20Apps%20Studio&c=apps'
+        },
+        {
+          id: 'convokick',
+          shortName: 'ConvoKick',
+          title: 'ConvoKick: Conversation Starters',
+          category: 'Social',
+          rating: '5.0 ★',
+          color: '#E84C3D',
+          icon: 'https://play-lh.googleusercontent.com/mt03qJi7Vgp7FhSYGpNKoOSK2I0PeW_twplgxfdSVEf4p5tqVPD3xxeoDV2vJdBjbpDRMnibsrV5cbYzvaw3G2c=w480-h960-rw',
+          oneLiner: 'Icebreakers, social tips, and topics that keep conversations effortless.',
+          tech: 'Flutter / Dart / Local Storage',
+          url: 'https://play.google.com/store/search?q=Conversation%20Starters%20Cosome%20Apps%20Studio&c=apps'
+        },
+        {
+          id: 'love-lines',
+          shortName: 'Love Lines',
+          title: 'Love Lines: Romantic Messages',
+          category: 'Lifestyle',
+          rating: '4.9 ★',
+          color: '#D82B6B',
+          icon: 'https://play-lh.googleusercontent.com/6EcglviC3jT0JaWTHv3XIEmKR8Z1YAC1ojUsbgKjyvcK42K-8DJA_8v_PCyjo7lhJ0doHSLrJNl8yAVQ9QQ9zA=w480-h960-rw',
+          oneLiner: 'Heartfelt love notes and romantic messages organized by mood.',
+          tech: 'Flutter / Dart / Share Engine',
+          url: 'https://play.google.com/store/search?q=Love%20Lines%20Cosome%20Apps%20Studio&c=apps'
+        }
+      ];
+
+      /* ----------------------------------------------------------------------
+         2. STICKY HEADER HAIRLINE & PERSISTED THEME SWITCH
+         ---------------------------------------------------------------------- */
+      const rootEl = document.documentElement;
+      const siteHeader = document.getElementById('siteHeader');
+      const themeSwitch = document.getElementById('themeSwitch');
+
+      function updateHeaderScroll() {
+        siteHeader.classList.toggle('is-scrolled', window.scrollY > 12);
+      }
+
+      updateHeaderScroll();
+      window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+
+      function syncThemeButton(theme) {
+        themeSwitch.textContent = theme === 'dark' ? 'Light' : 'Dark';
+      }
+
+      syncThemeButton(rootEl.getAttribute('data-theme') || 'light');
+
+      themeSwitch.addEventListener('click', function () {
+        const current = rootEl.getAttribute('data-theme') || 'light';
+        const next = current === 'dark' ? 'light' : 'dark';
+        rootEl.setAttribute('data-theme', next);
+        syncThemeButton(next);
+        try {
+          localStorage.setItem('cosome_theme', next);
+        } catch (e) {}
+      });
+
+      function setAmbientColor(hex) {
+        rootEl.style.setProperty('--ambient-color', hex);
+      }
+
+      /* ----------------------------------------------------------------------
+         3. INLINE CLICK-TO-COPY EMAIL (NO FLOATING TOAST BOX)
+         ---------------------------------------------------------------------- */
+      function copyText(text) {
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.setAttribute('readonly', '');
+          ta.style.position = 'fixed';
+          ta.style.top = '-9999px';
+          document.body.appendChild(ta);
+          ta.select();
+          ta.setSelectionRange(0, text.length);
+          const ok = document.execCommand('copy');
+          document.body.removeChild(ta);
+          if (ok) return true;
+        } catch (e) {}
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text);
+            return true;
+          }
+        } catch (e2) {}
+        return false;
+      }
+
+      document.querySelectorAll('[data-copy-email]').forEach(function (btn) {
+        const variant = btn.getAttribute('data-copy-email');
+        const defaultLabel = btn.textContent.trim();
+        let timer = null;
+
+        btn.addEventListener('click', function () {
+          copyText(EMAIL);
+          btn.textContent = variant === 'hero' ? ('Copied ' + EMAIL) : 'Copied';
+          btn.classList.add('is-copied');
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+            btn.textContent = defaultLabel;
+            btn.classList.remove('is-copied');
+          }, 2000);
+        });
+      });
+
+      /* ----------------------------------------------------------------------
+         4. REAL PLAY STORE ICON HELPER (WITH FALLBACK)
+         ---------------------------------------------------------------------- */
+      function buildIconHtml(app, className) {
+        const initials = app.shortName.slice(0, 2).toUpperCase();
+        const hex = app.color.replace('#', '');
+        const fallback = 'https://placehold.co/160x160/' + hex + '/ffffff?text=' + encodeURIComponent(initials);
+        return (
+          '<img ' +
+            'class="' + className + '" ' +
+            'src="' + app.icon + '" ' +
+            'alt="' + app.shortName + ' icon" ' +
+            'referrerpolicy="no-referrer" ' +
+            'loading="eager" ' +
+            'onerror="this.onerror=null;this.src=\'' + fallback + '\';" ' +
+          '/>'
+        );
+      }
+
+      /* ----------------------------------------------------------------------
+         5. APPS SHOWCASE: MAGNETIC ICON ROW, SPOTLIGHT & INDEX VIEWS
+         ---------------------------------------------------------------------- */
+      const viewTabs = document.querySelectorAll('.view-tab');
+      const spotlightPane = document.getElementById('spotlightPane');
+      const indexPane = document.getElementById('indexPane');
+      const magneticRow = document.getElementById('magneticRow');
+      const spotlightDetail = document.getElementById('spotlightDetail');
+
+      let activeView = 'spotlight';
+      let activeIndex = 0;
+      const dockNodes = [];
+
+      const dockPhysics = APPS.map(function () {
+        return {
+          scale: 1,
+          targetScale: 1,
+          lift: 0,
+          targetLift: 0,
+          margin: 0,
+          targetMargin: 0
+        };
+      });
+
+      let pointerX = null;
+      let dockRaf = null;
+
+      function switchAppsView(mode) {
+        activeView = mode;
+        viewTabs.forEach(function (tab) {
+          const isCurrent = tab.getAttribute('data-view') === mode;
+          tab.classList.toggle('is-active', isCurrent);
+          tab.setAttribute('aria-selected', String(isCurrent));
+        });
+
+        spotlightPane.classList.toggle('is-hidden', mode !== 'spotlight');
+        indexPane.classList.toggle('is-hidden', mode !== 'index');
+      }
+
+      viewTabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          switchAppsView(tab.getAttribute('data-view'));
+        });
+      });
+
+      function initMagneticRow() {
+        magneticRow.innerHTML = '';
+        APPS.forEach(function (app, idx) {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'dock-item' + (idx === activeIndex ? ' is-active' : '');
+          btn.setAttribute('role', 'option');
+          btn.setAttribute('aria-selected', String(idx === activeIndex));
+          btn.setAttribute('aria-label', app.title);
+
+          btn.innerHTML =
+            buildIconHtml(app, 'app-icon-dock') +
+            '<span class="dock-dot" style="background-color: ' + app.color + ';"></span>' +
+            '<span class="dock-caption">' + app.shortName + '</span>';
+
+          btn.addEventListener('click', function () {
+            selectApp(idx, true);
+          });
+
+          btn.addEventListener('mouseenter', function () {
+            setAmbientColor(app.color);
+          });
+
+          btn.addEventListener('focus', function () {
+            setAmbientColor(app.color);
+          });
+
+          magneticRow.appendChild(btn);
+          dockNodes.push({
+            btn: btn,
+            img: btn.querySelector('.app-icon-dock')
+          });
+        });
+      }
+
+      /* Smooth requestAnimationFrame Gaussian Proximity Magnification (~1.35x) */
+      function computeDockTargets() {
+        if (prefersReducedMotion || isCoarsePointer || pointerX === null) {
+          dockPhysics.forEach(function (p) {
+            p.targetScale = 1;
+            p.targetLift = 0;
+            p.targetMargin = 0;
+          });
+          return;
+        }
+
+        const sigma = 102;
+        const denom = 2 * sigma * sigma;
+
+        dockNodes.forEach(function (node, i) {
+          const rect = node.btn.getBoundingClientRect();
+          const cx = rect.left + rect.width / 2;
+          const dx = pointerX - cx;
+          const influence = Math.exp(-(dx * dx) / denom);
+
+          dockPhysics[i].targetScale = 1 + 0.35 * influence;
+          dockPhysics[i].targetLift = -11 * influence;
+          dockPhysics[i].targetMargin = 8 * influence;
+        });
+      }
+
+      function stepDockPhysics() {
+        computeDockTargets();
+        let active = false;
+        const ease = 0.2;
+
+        dockPhysics.forEach(function (p, i) {
+          p.scale += (p.targetScale - p.scale) * ease;
+          p.lift += (p.targetLift - p.lift) * ease;
+          p.margin += (p.targetMargin - p.margin) * ease;
+
+          if (
+            Math.abs(p.targetScale - p.scale) > 0.0012 ||
+            Math.abs(p.targetLift - p.lift) > 0.02 ||
+            Math.abs(p.targetMargin - p.margin) > 0.02
+          ) {
+            active = true;
+          } else {
+            p.scale = p.targetScale;
+            p.lift = p.targetLift;
+            p.margin = p.targetMargin;
+          }
+
+          const node = dockNodes[i];
+          node.img.style.transform =
+            'translate3d(0, ' + p.lift.toFixed(2) + 'px, 0) scale(' + p.scale.toFixed(4) + ')';
+          node.btn.style.marginLeft = p.margin.toFixed(2) + 'px';
+          node.btn.style.marginRight = p.margin.toFixed(2) + 'px';
+        });
+
+        if (active || pointerX !== null) {
+          dockRaf = requestAnimationFrame(stepDockPhysics);
+        } else {
+          dockRaf = null;
+        }
+      }
+
+      function wakeDock() {
+        if (!dockRaf) {
+          dockRaf = requestAnimationFrame(stepDockPhysics);
+        }
+      }
+
+      magneticRow.addEventListener('pointermove', function (e) {
+        if (prefersReducedMotion || e.pointerType === 'touch') return;
+        pointerX = e.clientX;
+        wakeDock();
+      });
+
+      magneticRow.addEventListener('pointerleave', function () {
+        pointerX = null;
+        setAmbientColor(APPS[activeIndex].color);
+        wakeDock();
+      });
+
+      function renderSpotlight(index, animate) {
+        const app = APPS[index];
+        const countLabel = String(index + 1).padStart(2, '0') + ' / ' + String(APPS.length).padStart(2, '0');
+        const ratingMarkup = app.rating
+          ? '<span class="spotlight-rating">/ ' + app.rating + '</span>'
+          : '';
+
+        spotlightDetail.classList.remove('is-settling');
+        if (animate) {
+          void spotlightDetail.offsetWidth;
+          spotlightDetail.classList.add('is-settling');
+        }
+
+        spotlightDetail.innerHTML =
+          buildIconHtml(app, 'app-icon-feature') +
+          '<section>' +
+            '<p class="spotlight-meta">' +
+              '<span>' + countLabel + '</span>' +
+              '<span>' + app.category + '</span>' +
+              ratingMarkup +
+            '</p>' +
+            '<h3 class="spotlight-title">' + app.title + '</h3>' +
+            '<p class="spotlight-desc">' + app.oneLiner + '</p>' +
+            '<p class="spotlight-tech">' + app.tech + '</p>' +
+          '</section>' +
+          '<aside class="spotlight-actions">' +
+            '<a href="' + app.url + '" target="_blank" rel="noopener noreferrer" class="u-link spotlight-play">' +
+              '<span>View on Google Play</span>' +
+              '<span class="arrow" aria-hidden="true">↗</span>' +
+            '</a>' +
+            '<nav class="spotlight-pager" aria-label="Cycle apps">' +
+              '<button type="button" class="pager-btn" id="prevAppBtn">Prev</button>' +
+              '<span aria-hidden="true">/</span>' +
+              '<button type="button" class="pager-btn" id="nextAppBtn">Next</button>' +
+            '</nav>' +
+          '</aside>';
+
+        document.getElementById('prevAppBtn').addEventListener('click', function () {
+          selectApp((activeIndex - 1 + APPS.length) % APPS.length, true);
+        });
+
+        document.getElementById('nextAppBtn').addEventListener('click', function () {
+          selectApp((activeIndex + 1) % APPS.length, true);
+        });
+      }
+
+      function selectApp(index, animate) {
+        activeIndex = index;
+        const app = APPS[index];
+
+        dockNodes.forEach(function (node, i) {
+          const isCurrent = i === activeIndex;
+          node.btn.classList.toggle('is-active', isCurrent);
+          node.btn.setAttribute('aria-selected', String(isCurrent));
+        });
+
+        setAmbientColor(app.color);
+        renderSpotlight(index, animate);
+
+        if (window.innerWidth <= 640 && dockNodes[index]) {
+          dockNodes[index].btn.scrollIntoView({
+            behavior: prefersReducedMotion ? 'auto' : 'smooth',
+            block: 'nearest',
+            inline: 'center'
+          });
+        }
+      }
+
+      /* Keyboard Left / Right Cycling in Spotlight View */
+      document.addEventListener('keydown', function (e) {
+        const tag = document.activeElement ? document.activeElement.tagName : '';
+        if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+        if (activeView !== 'spotlight') return;
+
+        if (e.key === 'ArrowRight') {
+          selectApp((activeIndex + 1) % APPS.length, true);
+        } else if (e.key === 'ArrowLeft') {
+          selectApp((activeIndex - 1 + APPS.length) % APPS.length, true);
+        }
+      });
+
+      /* Build Unboxed Index List */
+      function initIndexList() {
+        indexPane.innerHTML = '';
+        APPS.forEach(function (app, idx) {
+          const li = document.createElement('li');
+          li.className = 'index-row';
+          li.setAttribute('tabindex', '0');
+          li.setAttribute('aria-label', app.title + '. Click to open in Spotlight.');
+
+          const metaLine = app.rating ? (app.category + ' / ' + app.rating) : app.category;
+
+          li.innerHTML =
+            buildIconHtml(app, 'app-icon-sm') +
+            '<div class="index-copy">' +
+              '<span class="index-name">' + app.title + '</span>' +
+              '<span class="index-liner">' + app.oneLiner + '</span>' +
+            '</div>' +
+            '<span class="index-meta">' + metaLine + '</span>' +
+            '<a href="' + app.url + '" target="_blank" rel="noopener noreferrer" class="u-link index-play">' +
+              '<span>Play Store</span>' +
+              '<span class="arrow" aria-hidden="true">↗</span>' +
+            '</a>';
+
+          li.querySelector('.index-play').addEventListener('click', function (e) {
+            e.stopPropagation();
+          });
+
+          li.addEventListener('mouseenter', function () {
+            setAmbientColor(app.color);
+          });
+
+          li.addEventListener('click', function () {
+            selectApp(idx, true);
+            switchAppsView('spotlight');
+            document.getElementById('apps').scrollIntoView({
+              behavior: prefersReducedMotion ? 'auto' : 'smooth',
+              block: 'start'
+            });
+          });
+
+          li.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              selectApp(idx, true);
+              switchAppsView('spotlight');
+            }
+          });
+
+          indexPane.appendChild(li);
+        });
+
+        indexPane.addEventListener('mouseleave', function () {
+          setAmbientColor(APPS[activeIndex].color);
+        });
+      }
+
+      initMagneticRow();
+      initIndexList();
+      selectApp(0, false);
+
+      /* ----------------------------------------------------------------------
+         6. CLIENT-SIDE IMAGE CONVERTER (HEIC/HEIF + JPG / PNG / WEBP)
+         ---------------------------------------------------------------------- */
+      const imageInput = document.getElementById('imageInput');
+      const uploadEmptyState = document.getElementById('uploadEmptyState');
+      const uploadPrompt = document.getElementById('uploadPrompt');
+      const converterActiveState = document.getElementById('converterActiveState');
+      const compareStage = document.getElementById('compareStage');
+      const origPreviewImg = document.getElementById('origPreviewImg');
+      const outputPreviewImg = document.getElementById('outputPreviewImg');
+      const splitScrubber = document.getElementById('splitScrubber');
+      const stageLeftLabel = document.getElementById('stageLeftLabel');
+      const stageRightLabel = document.getElementById('stageRightLabel');
+      const stageFileName = document.getElementById('stageFileName');
+      const stageDimensions = document.getElementById('stageDimensions');
+
+      const formatButtons = document.querySelectorAll('#formatOptions .width-opt');
+      const qualityBlock = document.getElementById('qualityBlock');
+      const qualityInput = document.getElementById('qualityInput');
+      const qualityValue = document.getElementById('qualityValue');
+      const widthButtons = document.querySelectorAll('#widthOptions .width-opt');
+
+      const statOrigSize = document.getElementById('statOrigSize');
+      const statOutputLabel = document.getElementById('statOutputLabel');
+      const statOutputSize = document.getElementById('statOutputSize');
+      const statReduction = document.getElementById('statReduction');
+      const statEncodeMs = document.getElementById('statEncodeMs');
+
+      const downloadOutputBtn = document.getElementById('downloadOutputBtn');
+      const downloadOutputLabel = document.getElementById('downloadOutputLabel');
+      const uploadAnotherBtn = document.getElementById('uploadAnotherBtn');
+      const clearImageBtn = document.getElementById('clearImageBtn');
+      const toolStatus = document.getElementById('toolStatus');
+
+      const workCanvas = document.createElement('canvas');
+      const workCtx = workCanvas.getContext('2d');
+
+      const convState = {
+        img: null,
+        baseName: '',
+        origBytes: 0,
+        origUrl: null,
+        outBlob: null,
+        outUrl: null,
+        format: 'image/jpeg',
+        ext: 'jpg',
+        label: 'JPG',
+        quality: 85,
+        maxWidth: 0
+      };
+
+      let encodeTimer = null;
+      let loadSeq = 0;
+      let heicToLoader = null;
+      let heic2AnyLoader = null;
+
+      function setStatus(message, isError) {
+        toolStatus.textContent = message || '';
+        toolStatus.classList.toggle('is-error', Boolean(isError));
+      }
+
+      function formatSize(bytes) {
+        if (!bytes || bytes <= 0) return '0 KB';
+        if (bytes < 1024 * 1024) {
+          return (bytes / 1024).toFixed(1) + ' KB';
+        }
+        return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+      }
+
+      function stripExtension(name) {
+        const cleaned = (name || 'image').trim();
+        const dot = cleaned.lastIndexOf('.');
+        return dot > 0 ? cleaned.slice(0, dot) : cleaned;
+      }
+
+      function updateSplit(val) {
+        const pct = Math.max(0, Math.min(100, Number(val)));
+        compareStage.style.setProperty('--split', pct + '%');
+        splitScrubber.value = String(pct);
+      }
+
+      splitScrubber.addEventListener('input', function () {
+        updateSplit(splitScrubber.value);
+      });
+
+      function openFilePicker() {
+        imageInput.value = '';
+        imageInput.click();
+      }
+
+      function syncFormatUI() {
+        const isLossless = convState.format === 'image/png';
+        qualityBlock.classList.toggle('is-disabled', isLossless);
+        qualityInput.disabled = isLossless;
+        qualityValue.textContent = isLossless ? 'Lossless' : (convState.quality + '%');
+        statOutputLabel.textContent = convState.label + ' size';
+        downloadOutputLabel.textContent = 'Download ' + convState.label;
+      }
+
+      /* Lazy Script Loader for On-Device HEIC Decoding (Zero Initial Bloat) */
+      function loadScriptOnce(src) {
+        return new Promise(function (resolve, reject) {
+          const script = document.createElement('script');
+          script.src = src;
+          script.async = true;
+          script.onload = resolve;
+          script.onerror = function () {
+            reject(new Error('Failed to load decoder script.'));
+          };
+          document.head.appendChild(script);
+        });
+      }
+
+      /* Detect iPhone HEIC/HEIF via MIME, extension, or ISO BMFF ftyp header */
+      async function looksLikeHeic(file) {
+        const name = (file.name || '').toLowerCase();
+        const type = (file.type || '').toLowerCase();
+
+        if (
+          type === 'image/heic' ||
+          type === 'image/heif' ||
+          type === 'image/heic-sequence' ||
+          type === 'image/heif-sequence' ||
+          /\.(heic|heif|hif)$/i.test(name)
+        ) {
+          return true;
+        }
+
+        try {
+          const buf = await file.slice(0, 32).arrayBuffer();
+          const bytes = new Uint8Array(buf);
+          let ascii = '';
+          for (let i = 0; i < bytes.length; i++) {
+            ascii += String.fromCharCode(bytes[i]);
+          }
+          if (ascii.indexOf('ftyp') !== -1) {
+            return /(heic|heix|hevc|hevx|mif1|msf1|heif)/i.test(ascii);
+          }
+        } catch (e) {}
+
+        return false;
+      }
+
+      async function decodeHeicLocally(file) {
+        if (!window.HeicTo) {
+          if (!heicToLoader) {
+            heicToLoader = loadScriptOnce(
+              'https://cdn.jsdelivr.net/npm/heic-to@1.6.7/dist/iife/heic-to.js'
+            ).catch(function (err) {
+              heicToLoader = null;
+              throw err;
+            });
+          }
+          await heicToLoader;
+        }
+
+        if (window.HeicTo) {
+          try {
+            return await window.HeicTo({
+              blob: file,
+              type: 'image/png'
+            });
+          } catch (primaryErr) {
+            /* Fallback to heic2any if an older HEIF container fails */
+            if (!window.heic2any) {
+              if (!heic2AnyLoader) {
+                heic2AnyLoader = loadScriptOnce(
+                  'https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js'
+                ).catch(function (err) {
+                  heic2AnyLoader = null;
+                  throw err;
+                });
+              }
+              await heic2AnyLoader;
+            }
+
+            if (window.heic2any) {
+              const fallbackRes = await window.heic2any({
+                blob: file,
+                toType: 'image/png'
+              });
+              return Array.isArray(fallbackRes) ? fallbackRes[0] : fallbackRes;
+            }
+            throw primaryErr;
+          }
+        }
+
+        throw new Error('HEIC decoder could not be initialized.');
+      }
+
+      function decodeBlobToImage(blob) {
+        return new Promise(function (resolve, reject) {
+          const url = URL.createObjectURL(blob);
+          const img = new Image();
+          img.onload = function () {
+            resolve({ img: img, url: url });
+          };
+          img.onerror = function () {
+            URL.revokeObjectURL(url);
+            reject(new Error('Native decode failed'));
+          };
+          img.src = url;
+        });
+      }
+
+      /* Real HTML5 Canvas Multi-Format Encoder with performance.now() Telemetry */
+      function encodeCurrentImage() {
+        if (!convState.img) return;
+        setStatus('', false);
+
+        const src = convState.img;
+        const srcW = src.naturalWidth || src.width;
+        const srcH = src.naturalHeight || src.height;
+
+        let outW = srcW;
+        let outH = srcH;
+
+        if (convState.maxWidth > 0 && srcW > convState.maxWidth) {
+          outW = convState.maxWidth;
+          outH = Math.max(1, Math.round((srcH * outW) / srcW));
+        }
+
+        const startTs = performance.now();
+
+        workCanvas.width = outW;
+        workCanvas.height = outH;
+
+        if (convState.format === 'image/jpeg') {
+          /* Opaque white background ensures transparent sources encode cleanly to JPG */
+          workCtx.fillStyle = '#FFFFFF';
+          workCtx.fillRect(0, 0, outW, outH);
+        } else {
+          workCtx.clearRect(0, 0, outW, outH);
+        }
+
+        workCtx.imageSmoothingEnabled = true;
+        workCtx.imageSmoothingQuality = 'high';
+        workCtx.drawImage(src, 0, 0, outW, outH);
+
+        const encodeQuality = convState.format === 'image/png' ? undefined : (convState.quality / 100);
+
+        workCanvas.toBlob(
+          function (blob) {
+            if (!blob) {
+              setStatus(convState.label + ' encoding failed in this browser.', true);
+              return;
+            }
+
+            if (convState.format === 'image/webp' && blob.type !== 'image/webp') {
+              setStatus('This browser does not support WebP encoding. Exported as PNG instead.', true);
+            }
+
+            const elapsedMs = Math.max(1, Math.round(performance.now() - startTs));
+
+            if (convState.outUrl) {
+              URL.revokeObjectURL(convState.outUrl);
+            }
+
+            convState.outBlob = blob;
+            convState.outUrl = URL.createObjectURL(blob);
+
+            outputPreviewImg.src = convState.outUrl;
+            stageRightLabel.textContent = convState.format === 'image/png'
+              ? 'PNG / LOSSLESS'
+              : (convState.label.toUpperCase() + ' / ' + convState.quality + '%');
+            stageDimensions.textContent = outW + ' x ' + outH;
+
+            statOrigSize.textContent = formatSize(convState.origBytes);
+            statOutputSize.textContent = formatSize(blob.size);
+            statEncodeMs.textContent = elapsedMs + ' ms';
+
+            statReduction.classList.remove('is-saved', 'is-neutral');
+            if (convState.origBytes > 0) {
+              const deltaPct = ((blob.size - convState.origBytes) / convState.origBytes) * 100;
+              if (deltaPct <= 0) {
+                statReduction.textContent = deltaPct.toFixed(1) + '%';
+                statReduction.classList.add('is-saved');
+              } else {
+                statReduction.textContent = '+' + deltaPct.toFixed(1) + '%';
+                statReduction.classList.add('is-neutral');
+              }
+            } else {
+              statReduction.textContent = '0.0%';
+              statReduction.classList.add('is-neutral');
+            }
+          },
+          convState.format,
+          encodeQuality
+        );
+      }
+
+      function scheduleEncode() {
+        clearTimeout(encodeTimer);
+        encodeTimer = setTimeout(encodeCurrentImage, 22);
+      }
+
+      async function handleUploadedFile(file) {
+        if (!file) return;
+        const seq = ++loadSeq;
+        setStatus('', false);
+
+        let decoded = null;
+        let wasHeic = false;
+
+        try {
+          /* Fast path: native browser decode (instant for PNG/WebP/JPG/AVIF and Safari HEIC) */
+          decoded = await decodeBlobToImage(file);
+        } catch (nativeErr) {
+          if (seq !== loadSeq) return;
+
+          const isHeicFile = await looksLikeHeic(file);
+          if (!isHeicFile) {
+            setStatus('Could not decode that file. Please upload a HEIC, HEIF, PNG, WebP, AVIF, BMP, or JPG image.', true);
+            return;
+          }
+
+          wasHeic = true;
+          uploadEmptyState.classList.add('is-busy');
+          uploadPrompt.textContent = 'Decoding HEIC locally...';
+          setStatus('Decoding iPhone HEIC photo locally in your browser...', false);
+
+          try {
+            const decodedBlob = await decodeHeicLocally(file);
+            if (seq !== loadSeq) return;
+            decoded = await decodeBlobToImage(decodedBlob);
+          } catch (heicErr) {
+            if (seq !== loadSeq) return;
+            uploadEmptyState.classList.remove('is-busy');
+            uploadPrompt.textContent = 'Drop an image here or click to upload';
+            setStatus('Could not decode this HEIC file. Check your internet connection for the first-time HEIC decoder load or try another photo.', true);
+            return;
+          } finally {
+            uploadEmptyState.classList.remove('is-busy');
+            uploadPrompt.textContent = 'Drop an image here or click to upload';
+          }
+        }
+
+        if (seq !== loadSeq) {
+          if (decoded && decoded.url) URL.revokeObjectURL(decoded.url);
+          return;
+        }
+
+        if (convState.origUrl) {
+          URL.revokeObjectURL(convState.origUrl);
+        }
+
+        convState.img = decoded.img;
+        convState.origUrl = decoded.url;
+        convState.origBytes = file.size;
+        convState.baseName = stripExtension(file.name);
+
+        const w = decoded.img.naturalWidth || decoded.img.width;
+        const h = decoded.img.naturalHeight || decoded.img.height;
+
+        origPreviewImg.src = decoded.url;
+        compareStage.style.aspectRatio = w + ' / ' + h;
+        stageLeftLabel.textContent = wasHeic ? 'ORIGINAL / HEIC' : 'ORIGINAL';
+        stageFileName.textContent = file.name;
+        updateSplit(50);
+
+        uploadEmptyState.classList.add('is-hidden');
+        converterActiveState.classList.remove('is-hidden');
+
+        syncFormatUI();
+        encodeCurrentImage();
+      }
+
+      function resetToEmptyState() {
+        loadSeq++;
+        clearTimeout(encodeTimer);
+
+        if (convState.origUrl) {
+          URL.revokeObjectURL(convState.origUrl);
+        }
+        if (convState.outUrl) {
+          URL.revokeObjectURL(convState.outUrl);
+        }
+
+        convState.img = null;
+        convState.baseName = '';
+        convState.origBytes = 0;
+        convState.origUrl = null;
+        convState.outBlob = null;
+        convState.outUrl = null;
+        convState.format = 'image/jpeg';
+        convState.ext = 'jpg';
+        convState.label = 'JPG';
+        convState.quality = 85;
+        convState.maxWidth = 0;
+
+        origPreviewImg.removeAttribute('src');
+        outputPreviewImg.removeAttribute('src');
+        stageLeftLabel.textContent = 'ORIGINAL';
+        stageFileName.textContent = '';
+        stageDimensions.textContent = '';
+        statOrigSize.textContent = '';
+        statOutputSize.textContent = '';
+        statReduction.textContent = '';
+        statEncodeMs.textContent = '';
+        setStatus('', false);
+
+        qualityInput.value = '85';
+        formatButtons.forEach(function (b) {
+          b.classList.toggle('is-active', b.getAttribute('data-format') === 'image/jpeg');
+        });
+        widthButtons.forEach(function (b) {
+          b.classList.toggle('is-active', b.getAttribute('data-width') === '0');
+        });
+        syncFormatUI();
+        updateSplit(50);
+
+        converterActiveState.classList.add('is-hidden');
+        uploadEmptyState.classList.remove('is-hidden');
+      }
+
+      /* Empty Upload Zone Click, Keyboard & Drag-and-Drop */
+      uploadEmptyState.addEventListener('click', openFilePicker);
+
+      uploadEmptyState.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openFilePicker();
+        }
+      });
+
+      function bindDropTarget(el) {
+        ['dragenter', 'dragover'].forEach(function (evt) {
+          el.addEventListener(evt, function (e) {
+            e.preventDefault();
+            el.classList.add('is-dragover');
+          });
+        });
+
+        ['dragleave', 'drop'].forEach(function (evt) {
+          el.addEventListener(evt, function (e) {
+            e.preventDefault();
+            el.classList.remove('is-dragover');
+          });
+        });
+
+        el.addEventListener('drop', function (e) {
+          const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+          if (file) {
+            handleUploadedFile(file);
+          }
+        });
+      }
+
+      bindDropTarget(uploadEmptyState);
+      bindDropTarget(compareStage);
+
+      imageInput.addEventListener('change', function () {
+        const file = imageInput.files && imageInput.files[0];
+        if (file) {
+          handleUploadedFile(file);
+        }
+      });
+
+      /* Active Workspace Controls */
+      formatButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          convState.format = btn.getAttribute('data-format');
+          convState.ext = btn.getAttribute('data-ext');
+          convState.label = btn.getAttribute('data-label');
+          formatButtons.forEach(function (b) {
+            b.classList.toggle('is-active', b === btn);
+          });
+          syncFormatUI();
+          encodeCurrentImage();
+        });
+      });
+
+      qualityInput.addEventListener('input', function () {
+        convState.quality = Number(qualityInput.value);
+        qualityValue.textContent = convState.quality + '%';
+        scheduleEncode();
+      });
+
+      widthButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          convState.maxWidth = Number(btn.getAttribute('data-width'));
+          widthButtons.forEach(function (b) {
+            b.classList.toggle('is-active', b === btn);
+          });
+          encodeCurrentImage();
+        });
+      });
+
+      downloadOutputBtn.addEventListener('click', function () {
+        if (!convState.outUrl || !convState.outBlob) return;
+        const actualExt = (convState.format === 'image/webp' && convState.outBlob.type === 'image/png')
+          ? 'png'
+          : convState.ext;
+        const a = document.createElement('a');
+        a.href = convState.outUrl;
+        a.download = convState.baseName + '.' + actualExt;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      });
+
+      uploadAnotherBtn.addEventListener('click', openFilePicker);
+      clearImageBtn.addEventListener('click', resetToEmptyState);
+    })();
+  </script>
+</body>
+</html>
